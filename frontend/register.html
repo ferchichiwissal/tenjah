@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créez votre compte Superprof</title>
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div class="register-container">
+        
+        <h2>Créez votre compte</h2>
+        <form action="../backend/register.php" method="POST">
+            <input type="text" name="firstname" placeholder="Prénom" required>
+            <input type="text" name="lastname" placeholder="Nom" required>
+            <input type="email" name="email" placeholder="Adresse email" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <input type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
+            <input type="hidden" name="role" value="student">
+            <button type="submit" class="btn-primary">S'inscrire</button>
+        </form>
+        <div class="separator">ou</div>
+        <button class="btn-social google">
+            <img src="images/google_icon.png" alt="Google Icon"> S'inscrire avec Google
+        </button>
+        <button class="btn-social apple">
+            <img src="images/facebook_icon.png" alt="Facebook Icon"> S'inscrire avec Apple
+        </button>
+        <p class="login-link">Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a></p>
+    </div>
+</body>
+</html>

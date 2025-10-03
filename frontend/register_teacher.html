@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Enseignant - El Najeh</title>
+    <link rel="stylesheet" href="css/register.css"> <!-- Réutiliser le CSS d'inscription général -->
+</head>
+<body>
+    <div class="register-container">
+        <h2>Inscription Enseignant</h2>
+        <form action="../backend/register_teacher.php" method="POST">
+            <input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required>
+            <input type="email" name="email" placeholder="Adresse email" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <textarea name="bio" rows="4" placeholder="Décrivez votre expérience et votre approche pédagogique..."></textarea>
+            <input type="text" name="specialite" placeholder="Spécialité (ex: Maths, Anglais, Piano)" required>
+            <button type="submit" class="btn-primary">S'inscrire comme enseignant</button>
+        </form>
+        <p class="login-link">Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a></p>
+    </div>
+</body>
+</html>

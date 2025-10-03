@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - El Najeh</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #fff;
+            padding: 15px 30px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #4CAF50;
+        }
+        .dashboard-content {
+            flex-grow: 1;
+            padding: 40px;
+            text-align: center;
+            background-color: #e8f5e9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .dashboard-content h1 {
+            color: #333;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .dashboard-content p {
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .btn-logout {
+            background-color: #f44336;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-logout:hover {
+            background-color: #d32f2f;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.php" class="logo">El Najeh</a>
+        <nav>
+            <a href="#">Mon Profil</a>
+            <a href="#">Mes Cours</a>
+            <a href="#">Messages</a>
+            <a href="../backend/logout.php" class="btn-logout">Déconnexion</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-content">
+        <h1 id="welcome-message">Chargement du tableau de bord...</h1>
+        <p id="user-info"></p>
+        <p id="role-info"></p>
+        <p>Explorez vos cours, gérez votre profil et connectez-vous avec d'autres utilisateurs.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 El Najeh. Tous droits réservés.</p>
+    </footer>
+    <script src="js/auth.js"></script>
+</body>
+</html>

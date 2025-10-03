@@ -1,0 +1,483 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+/* Header and Navigation */
+header {
+    background-color: #fff;
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #8cc5de;
+}
+
+/* Hero Section */
+.hero {
+    background-color: #f0f2f5;
+    text-align: center;
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h1 {
+    font-size: 48px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.search-bar input {
+    width: 400px;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 25px 0 0 25px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-bar button {
+    background-color: #5ad3ff;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 0 25px 25px 0;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #e04a4f;
+}
+
+/* Categories Section */
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Ajusté pour être plus petit */
+    margin: 0 auto;
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.category-item:hover {
+    background-color: #f0f0f0;
+}
+
+.category-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.category-item.arrow {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+/* Courses Overview Section */
+.courses-overview {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.courses-overview h2 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.course-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap; /* Empêche le retour à la ligne */
+    gap: 20px; /* Réduit l'espace entre les cartes */
+    max-width: 1200px; /* Assure une largeur suffisante */
+    margin: 0 auto;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 23%; /* Chaque carte prend environ 23% de la largeur pour 4 cartes */
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 20px;
+    color: #333;
+    margin: 15px 15px 5px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #777;
+    margin: 0 15px 15px;
+}
+
+/* Popular Courses Section */
+.popular-courses {
+    background-color: #f0f2f5;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.popular-courses h2 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.popular-courses .course-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap; /* Empêche le retour à la ligne */
+    gap: 50px; /* Espacement entre les colonnes */
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 20px 0; /* Ajoute un peu de padding vertical */
+}
+
+.popular-courses .course-list > div {
+    flex: 1; /* Permet aux colonnes de prendre l'espace disponible */
+    min-width: 150px; /* Largeur minimale pour chaque colonne */
+    max-width: 200px; /* Largeur maximale pour chaque colonne */
+    background-color: transparent; /* Supprime le fond blanc */
+    padding: 0; /* Supprime le padding */
+    border-radius: 0; /* Supprime le border-radius */
+    box-shadow: none; /* Supprime l'ombre */
+}
+
+.popular-courses .course-list h4 {
+    font-size: 16px; /* Taille de police plus petite pour les titres de catégorie */
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold; /* Rend le texte plus gras */
+}
+
+.popular-courses .course-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular-courses .course-list ul li {
+    margin-bottom: 5px; /* Réduit l'espacement entre les éléments de liste */
+    color: #555;
+    font-size: 14px; /* Taille de police plus petite pour les éléments de liste */
+}
+
+.course-list h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.course-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.course-list ul li {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.testimonials h2 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.testimonial-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permet le retour à la ligne si l'espace est insuffisant, mais on va ajuster la largeur pour qu'elles restent sur une ligne */
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+.testimonial-card {
+    padding: 30px;
+    border-radius: 20px; /* Plus grand border-radius */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+    width: calc(33.33% - 20px); /* Chaque carte prend environ 33.33% de la largeur moins le gap */
+    flex-shrink: 0;
+    text-align: left;
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pour pousser le rating vers le bas si le contenu est court */
+}
+
+.testimonial-card-green {
+    background-color: #c3d8e8; /* Vert clair */
+}
+
+.testimonial-card-yellow {
+    background-color: #fffacd; /* Jaune clair */
+}
+
+.testimonial-card p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Permet au paragraphe de prendre l'espace disponible */
+}
+
+.testimonial-card .author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.testimonial-card .author img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.testimonial-card .author span {
+    font-weight: bold;
+    color: #333;
+}
+
+.testimonial-card .rating {
+    color: #ffc107; /* Gold color for stars */
+    font-size: 18px;
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a; /* Darker background for footer */
+    color: #fff;
+    padding: 60px 20px 20px; /* Adjust padding for top and bottom */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 30px; /* Space between columns */
+    padding-bottom: 40px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 180px; /* Minimum width for columns before wrapping */
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.footer-column ul {
+    list-style: none !important; /* Ensure bullets are removed */
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    text-decoration: none;
+    color: #fff; /* White color for links as per image */
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+    color: #79c8ec; /* Hover color */
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #333; /* Darker circle background */
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #76c9f3; /* Hover color for social icons */
+}
+
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Ajoute un padding horizontal pour l'alignement */
+    text-align: left; /* Aligne le texte à gauche */
+}
+
+.footer-bottom hr {
+    border: none;
+    border-top: 1px solid #333;
+    margin: 20px 0; /* Ajuste la marge pour qu'elle soit à gauche */
+    width: 100%; /* La ligne prend toute la largeur disponible */
+}
+
+.footer-bottom p {
+    font-size: 14px;
+    color: #aaa;
+    margin-top: 10px;
+    text-align: left; /* Assure que le paragraphe est aligné à gauche */
+}
+
+/* User Profile and Dropdown Menu */
+#user-nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.user-profile {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ff6b6b; /* Red border as in the image */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 55px; /* Adjust based on avatar size and desired spacing */
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 200px;
+    z-index: 1000;
+    display: none; /* Hidden by default, controlled by JavaScript */
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.dropdown-menu a {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #333;
+    display: block;
+    font-weight: normal;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}

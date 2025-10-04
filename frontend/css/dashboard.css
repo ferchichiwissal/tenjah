@@ -1,39 +1,156 @@
-.btn-primary {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #fff;
+    padding: 15px 30px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #4CAF50;
+}
+
+.btn-logout {
+    background-color: #f44336;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #d32f2f;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    margin-top: auto; /* Pousse le footer vers le bas */
+}
+
+.dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #e8f5e9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard-content h1 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.dashboard-content p {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.dashboard-main-content {
+    display: flex;
+    width: 90%; /* Ou une largeur fixe */
+    max-width: 1200px;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.left-panel {
+    flex: 1; /* Prend 1 part de l'espace disponible */
+    min-width: 280px; /* Largeur minimale pour le panneau gauche */
+}
+
+.right-panel {
+    flex: 2; /* Prend 2 parts de l'espace disponible */
+}
+
+.dashboard-panel {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px; /* Espace entre les sections dans le même panneau */
+}
+
+.dashboard-panel h2 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Styles pour le bouton "Créer une Annonce" */
+#create-annonce-btn {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.1em;
+    text-decoration: none;
     transition: background-color 0.3s ease;
-    margin-right: 10px;
+    margin-bottom: 20px; /* Espace sous le bouton */
 }
-.btn-primary:hover {
+
+#create-annonce-btn:hover {
     background-color: #45a049;
 }
-.btn-secondary {
-    background-color: #ccc;
-    color: #333;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+
+/* Styles pour le formulaire d'annonce */
+#create-annonce-section {
+    margin-top: 0; /* Supprime la marge supérieure si le bouton est au-dessus */
 }
-.btn-secondary:hover {
-    background-color: #bbb;
-}
+
 .form-group {
     margin-bottom: 15px;
+    text-align: left;
 }
+
 .form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
     color: #333;
 }
+
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea,
@@ -45,89 +162,125 @@
     box-sizing: border-box;
     font-size: 1em;
 }
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    justify-content: center;
-    align-items: center;
-}
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 8px;
-    position: relative;
-    text-align: left;
-}
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+
+.form-group textarea {
+    resize: vertical;
 }
 
-/* Styles pour la section des inscriptions */
-#inscriptions-eleves-section {
-    margin-top: 30px;
-    text-align: left;
-}
-
-#inscriptions-eleves-section h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 2em;
-}
-
-.matiere-inscriptions {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
     border-radius: 5px;
-    margin-bottom: 15px;
-    padding: 15px;
-}
-
-.matiere-title {
-    color: #4CAF50;
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 10px;
     cursor: pointer;
+    font-size: 1.1em;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
 }
 
-.matiere-title:hover {
-    text-decoration: underline;
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Styles pour la liste des matières */
+#matieres-list {
+    margin-top: 15px;
+}
+
+.matiere-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.matiere-item:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.matiere-item.active {
+    background-color: #e8f5e9; /* Couleur de fond pour l'élément actif */
+    border-color: #4CAF50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.matiere-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    object-fit: contain;
+}
+
+.matiere-info {
+    flex-grow: 1;
+}
+
+.matiere-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1em;
+}
+
+/* Styles pour la liste des élèves */
+#selected-matiere-eleves h3 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 15px;
 }
 
 .eleves-list {
     list-style: none;
     padding: 0;
-    margin-left: 20px;
-    border-left: 2px solid #4CAF50;
-    padding-left: 15px;
+    margin-top: 15px;
 }
 
 .eleves-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 12px 15px;
     margin-bottom: 8px;
+    font-size: 0.95em;
     color: #555;
-    line-height: 1.5;
 }
 
 .eleves-list li strong {
     color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-main-content {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .left-panel, .right-panel {
+        min-width: unset;
+        width: 100%;
+    }
 }

@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     welcomeMessageElement.textContent = `Bienvenue, ${userData.prenom} ${userData.nom} !`;
                 }
 
-                if (userInfoElement) {
+           /*     if (userInfoElement) {
                     userInfoElement.textContent = `Vous êtes connecté en tant que ${userData.prenom} ${userData.nom}.`;
-                }
+                }*/
 
                 if (roleInfoElement) {
                     if (userData.role === 'teacher') {
-                        roleInfoElement.textContent = "Tableau de bord enseignant";
-                        // Afficher le bouton "Créer une Annonce" si l'utilisateur est un enseignant
+                     //   roleInfoElement.textContent = "Tableau de bord enseignant";
+                        // Afficher le bouton "Créer une Annonce" si l'utilisateur est un enseignant  */
                 const createAnnonceBtn = document.getElementById('create-annonce-btn');
                 const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
 

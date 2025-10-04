@@ -6,137 +6,6 @@
     <title>Tableau de Bord - El Najeh</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header {
-            background-color: #fff;
-            padding: 15px 30px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #4CAF50;
-        }
-        .dashboard-content {
-            flex-grow: 1;
-            padding: 40px;
-            text-align: center;
-            background-color: #e8f5e9;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .dashboard-content h1 {
-            color: #333;
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-        .dashboard-content p {
-            color: #555;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-        .btn-logout {
-            background-color: #f44336;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .btn-logout:hover {
-            background-color: #d32f2f;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9em;
-        }
-        /* Styles pour le formulaire d'annonce */
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1em;
-        }
-        .form-group textarea {
-            resize: vertical;
-        }
-        .btn-primary {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            margin-right: 10px;
-        }
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -153,53 +22,66 @@
         <h1 id="welcome-message">Chargement du tableau de bord...</h1>
         <p id="user-info"></p>
         <p id="role-info"></p>
-        <p>Explorez vos cours, gérez votre profil et connectez-vous avec d'autres utilisateurs.</p>
 
-        <!-- Bouton pour créer une annonce (visible uniquement pour les enseignants) -->
-        <button id="create-annonce-btn" class="btn-primary" style="display: none; margin-top: 20px;">Créer une Annonce</button>
-
-        <!-- Section de création d'annonce -->
-        <section id="create-annonce-section" style="display: none; width: 80%; max-width: 700px; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top: 30px; text-align: left;">
-            <h2>Créer une Nouvelle Annonce</h2>
-            <form id="annonce-form">
-                <div class="form-group">
-                    <label for="matiere-select">Matière:</label>
-                    <select id="matiere-select" name="matiere_id" required>
-                        <!-- Les options de matière seront chargées ici par JavaScript -->
-                        <option value="">Sélectionnez une matière</option>
-                        <option value="other">Autre (taper une nouvelle matière)</option>
-                    </select>
-                    <input type="text" id="new-matiere-input" name="new_matiere_name" placeholder="Entrez le nom de la nouvelle matière" style="display: none; margin-top: 10px;">
-                </div>
-                <div class="form-group">
-                    <label for="titre">Titre de l'annonce:</label>
-                    <input type="text" id="titre" name="titre" required>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="5" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="niveau">Niveau:</label>
-                    <input type="text" id="niveau" name="niveau" placeholder="Ex: BAC, Licence 1, 3ème" required>
-                </div>
-                <div class="form-group">
-                    <label for="prix-unitaire">Prix Unitaire (€/heure):</label>
-                    <input type="number" id="prix-unitaire" name="prix_unitaire" step="0.01" min="0" required>
-                </div>
-                <button type="submit" class="btn-primary">Publier l'Annonce</button>
-                <button type="button" id="cancel-annonce-btn" class="btn-secondary">Annuler</button>
-            </form>
-            <p id="annonce-message" style="margin-top: 15px;"></p>
-        </section>
-
-        <!-- Section des inscriptions des élèves (visible uniquement pour les enseignants) -->
-        <section id="inscriptions-eleves-section" style="display: none; width: 80%; max-width: 900px; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top: 30px; text-align: left;">
-            <h2>Inscriptions de vos élèves</h2>
-            <div id="inscriptions-list">
-                <p>Chargement des inscriptions...</p>
+        <div class="dashboard-main-content">
+            <div class="left-panel">
+                <!-- Section des inscriptions des élèves (visible uniquement pour les enseignants) -->
+                <section id="inscriptions-eleves-section" class="dashboard-panel" style="display: none;">
+                    <h2>Matières & Groupes</h2>
+                    <div id="matieres-list">
+                        <p>Chargement des matières...</p>
+                    </div>
+                </section>
             </div>
-        </section>
+
+            <div class="right-panel">
+                <!-- Bouton pour créer une annonce (visible uniquement pour les enseignants) -->
+                <button id="create-annonce-btn" class="btn-primary" style="display: none; margin-top: 20px;">Créer une Annonce</button>
+
+                <!-- Section pour afficher les détails des élèves pour la matière sélectionnée -->
+                <section id="eleve-details-section" class="dashboard-panel" style="display: none;">
+                    <h2>Élèves inscrits</h2>
+                    <div id="selected-matiere-eleves">
+                        <p>Sélectionnez une matière pour voir les élèves inscrits.</p>
+                    </div>
+                </section>
+
+                <!-- Section de création d'annonce -->
+                <section id="create-annonce-section" class="dashboard-panel" style="display: none;">
+                    <h2>Créer une Nouvelle Annonce</h2>
+                    <form id="annonce-form">
+                        <div class="form-group">
+                            <label for="matiere-select">Matière:</label>
+                            <select id="matiere-select" name="matiere_id" required>
+                                <!-- Les options de matière seront chargées ici par JavaScript -->
+                                <option value="">Sélectionnez une matière</option>
+                                <option value="other">Autre (taper une nouvelle matière)</option>
+                            </select>
+                            <input type="text" id="new-matiere-input" name="new_matiere_name" placeholder="Entrez le nom de la nouvelle matière" style="display: none; margin-top: 10px;">
+                        </div>
+                        <div class="form-group">
+                            <label for="titre">Titre de l'annonce:</label>
+                            <input type="text" id="titre" name="titre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="niveau">Niveau:</label>
+                            <input type="text" id="niveau" name="niveau" placeholder="Ex: BAC, Licence 1, 3ème" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prix-unitaire">Prix Unitaire (€/heure):</label>
+                            <input type="number" id="prix-unitaire" name="prix_unitaire" step="0.01" min="0" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Publier l'Annonce</button>
+                        <button type="button" id="cancel-annonce-btn" class="btn-secondary">Annuler</button>
+                    </form>
+                    <p id="annonce-message" style="margin-top: 15px;"></p>
+                </section>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -217,7 +99,9 @@
             const newMatiereInput = document.getElementById('new-matiere-input');
             const annonceMessage = document.getElementById('annonce-message');
             const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
-            const inscriptionsList = document.getElementById('inscriptions-list');
+            const matieresList = document.getElementById('matieres-list'); // Renommé de inscriptionsList
+            const eleveDetailsSection = document.getElementById('eleve-details-section');
+            const selectedMatiereEleves = document.getElementById('selected-matiere-eleves');
 
             // Fonction pour charger les matières
             async function loadMatieres() {
@@ -271,6 +155,7 @@
                 newMatiereInput.removeAttribute('required');
                 matiereSelect.value = ''; // Reset select to default
                 inscriptionsElevesSection.style.display = 'none'; // Masquer la section des inscriptions
+                eleveDetailsSection.style.display = 'none'; // Masquer la section des détails des élèves
             });
 
             cancelAnnonceBtn.addEventListener('click', function() {
@@ -348,49 +233,52 @@
                     const result = await response.json();
 
                     if (result.success) {
-                                inscriptionsList.innerHTML = ''; // Clear previous content
-                                if (Object.keys(result.inscriptions).length > 0) {
-                                    for (const matiere in result.inscriptions) {
-                                        const matiereDiv = document.createElement('div');
-                                        matiereDiv.classList.add('matiere-inscriptions');
+                        matieresList.innerHTML = ''; // Clear previous content
+                        selectedMatiereEleves.innerHTML = '<p>Sélectionnez une matière pour voir les élèves inscrits.</p>'; // Reset right panel
 
-                                        const matiereTitle = document.createElement('h3');
-                                        matiereTitle.textContent = matiere;
-                                        matiereTitle.style.cursor = 'pointer';
-                                        matiereTitle.classList.add('matiere-title');
-                                        matiereDiv.appendChild(matiereTitle);
+                        if (Object.keys(result.inscriptions).length > 0) {
+                            for (const matiere in result.inscriptions) {
+                                const matiereItem = document.createElement('div');
+                                matiereItem.classList.add('matiere-item');
+                                matiereItem.innerHTML = `
+                                    <div class="matiere-name">${matiere}</div>
+                                `;
+                                matieresList.appendChild(matiereItem);
 
-                                        const elevesList = document.createElement('ul');
-                                        elevesList.classList.add('eleves-list');
-                                        elevesList.style.display = 'none'; // Hidden by default
+                                // Add click event to show students for this matiere
+                                matiereItem.addEventListener('click', () => {
+                                    // Remove active class from all matiere items
+                                    document.querySelectorAll('.matiere-item').forEach(item => item.classList.remove('active'));
+                                    // Add active class to the clicked item
+                                    matiereItem.classList.add('active');
 
-                                        result.inscriptions[matiere].forEach(eleve => {
-                                            const listItem = document.createElement('li');
-                                            listItem.innerHTML = `
-                                                <strong>${eleve.eleve_prenom} ${eleve.eleve_nom}</strong> (${eleve.eleve_email}) - Inscrit à l'annonce: "${eleve.annonce_titre}" le ${eleve.date_inscription}
-                                            `;
-                                            elevesList.appendChild(listItem);
-                                        });
-                                        matiereDiv.appendChild(elevesList);
-                                        inscriptionsList.appendChild(matiereDiv);
+                                    selectedMatiereEleves.innerHTML = `<h3>Élèves inscrits à ${matiere}</h3>`;
+                                    const elevesList = document.createElement('ul');
+                                    elevesList.classList.add('eleves-list');
 
-                                        // Toggle visibility on click
-                                        matiereTitle.addEventListener('click', () => {
-                                            elevesList.style.display = elevesList.style.display === 'none' ? 'block' : 'none';
-                                        });
-                                    }
-                                } else {
-                                    inscriptionsList.innerHTML = '<p>Aucun élève inscrit à vos annonces pour le moment.</p>';
-                                }
-                                inscriptionsElevesSection.style.display = 'block'; // Always show the section if it's an teacher
+                                    result.inscriptions[matiere].forEach(eleve => {
+                                        const listItem = document.createElement('li');
+                                        listItem.innerHTML = `
+                                            <strong>${eleve.eleve_prenom} ${eleve.eleve_nom}</strong> (${eleve.eleve_email}) - Inscrit à l'annonce: "${eleve.annonce_titre}" le ${eleve.date_inscription}
+                                        `;
+                                        elevesList.appendChild(listItem);
+                                    });
+                                    selectedMatiereEleves.appendChild(elevesList);
+                                    eleveDetailsSection.style.display = 'block'; // Show right panel
+                                });
+                            }
+                        } else {
+                            matieresList.innerHTML = '<p>Aucun élève inscrit à vos annonces pour le moment.</p>';
+                        }
+                        inscriptionsElevesSection.style.display = 'block'; // Always show the left section if it's an teacher
                     } else {
-                        inscriptionsList.innerHTML = '<p>Erreur lors du chargement des inscriptions: ' + result.message + '</p>';
+                        matieresList.innerHTML = '<p>Erreur lors du chargement des inscriptions: ' + result.message + '</p>';
                         inscriptionsElevesSection.style.display = 'block'; // Show the section
                     }
                 } catch (error) {
                     console.error('Erreur réseau lors du chargement des inscriptions:', error);
-                    inscriptionsList.innerHTML = '<p>Erreur réseau lors du chargement des inscriptions.</p>';
-                        inscriptionsElevesSection.style.display = 'block'; // Show the section
+                    matieresList.innerHTML = '<p>Erreur réseau lors du chargement des inscriptions.</p>';
+                    inscriptionsElevesSection.style.display = 'block'; // Show the section
                 }
             }
 

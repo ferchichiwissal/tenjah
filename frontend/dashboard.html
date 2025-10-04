@@ -341,49 +341,48 @@
                 }
             });
 
-            // Fonction pour charger les inscriptions des élèves
-            async function loadInscriptions() {
+            // Fonction pour charger les inscriptions des élèves (rendue globale pour être appelée par auth.js)
+            window.loadInscriptions = async function() {
                 try {
                     const response = await fetch('../backend/get_inscriptions_enseignant.php');
                     const result = await response.json();
 
                     if (result.success) {
-                        inscriptionsList.innerHTML = ''; // Clear previous content
-                        if (Object.keys(result.inscriptions).length > 0) {
-                            for (const matiere in result.inscriptions) {
-                                const matiereDiv = document.createElement('div');
-                                matiereDiv.classList.add('matiere-inscriptions');
+                                inscriptionsList.innerHTML = ''; // Clear previous content
+                                if (Object.keys(result.inscriptions).length > 0) {
+                                    for (const matiere in result.inscriptions) {
+                                        const matiereDiv = document.createElement('div');
+                                        matiereDiv.classList.add('matiere-inscriptions');
 
-                                const matiereTitle = document.createElement('h3');
-                                matiereTitle.textContent = matiere;
-                                matiereTitle.style.cursor = 'pointer';
-                                matiereTitle.classList.add('matiere-title');
-                                matiereDiv.appendChild(matiereTitle);
+                                        const matiereTitle = document.createElement('h3');
+                                        matiereTitle.textContent = matiere;
+                                        matiereTitle.style.cursor = 'pointer';
+                                        matiereTitle.classList.add('matiere-title');
+                                        matiereDiv.appendChild(matiereTitle);
 
-                                const elevesList = document.createElement('ul');
-                                elevesList.classList.add('eleves-list');
-                                elevesList.style.display = 'none'; // Hidden by default
+                                        const elevesList = document.createElement('ul');
+                                        elevesList.classList.add('eleves-list');
+                                        elevesList.style.display = 'none'; // Hidden by default
 
-                                result.inscriptions[matiere].forEach(eleve => {
-                                    const listItem = document.createElement('li');
-                                    listItem.innerHTML = `
-                                        <strong>${eleve.eleve_prenom} ${eleve.eleve_nom}</strong> (${eleve.eleve_email}) - Inscrit à l'annonce: "${eleve.annonce_titre}" le ${eleve.date_inscription}
-                                    `;
-                                    elevesList.appendChild(listItem);
-                                });
-                                matiereDiv.appendChild(elevesList);
-                                inscriptionsList.appendChild(matiereDiv);
+                                        result.inscriptions[matiere].forEach(eleve => {
+                                            const listItem = document.createElement('li');
+                                            listItem.innerHTML = `
+                                                <strong>${eleve.eleve_prenom} ${eleve.eleve_nom}</strong> (${eleve.eleve_email}) - Inscrit à l'annonce: "${eleve.annonce_titre}" le ${eleve.date_inscription}
+                                            `;
+                                            elevesList.appendChild(listItem);
+                                        });
+                                        matiereDiv.appendChild(elevesList);
+                                        inscriptionsList.appendChild(matiereDiv);
 
-                                // Toggle visibility on click
-                                matiereTitle.addEventListener('click', () => {
-                                    elevesList.style.display = elevesList.style.display === 'none' ? 'block' : 'none';
-                                });
-                            }
-                            inscriptionsElevesSection.style.display = 'block'; // Show the section
-                        } else {
-                            inscriptionsList.innerHTML = '<p>Aucun élève inscrit à vos annonces pour le moment.</p>';
-                            inscriptionsElevesSection.style.display = 'block'; // Show the section
-                        }
+                                        // Toggle visibility on click
+                                        matiereTitle.addEventListener('click', () => {
+                                            elevesList.style.display = elevesList.style.display === 'none' ? 'block' : 'none';
+                                        });
+                                    }
+                                } else {
+                                    inscriptionsList.innerHTML = '<p>Aucun élève inscrit à vos annonces pour le moment.</p>';
+                                }
+                                inscriptionsElevesSection.style.display = 'block'; // Always show the section if it's an teacher
                     } else {
                         inscriptionsList.innerHTML = '<p>Erreur lors du chargement des inscriptions: ' + result.message + '</p>';
                         inscriptionsElevesSection.style.display = 'block'; // Show the section

@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (typeof loadInscriptions === 'function') {
                         loadInscriptions();
                     }
+                    // Appeler loadTeacherSessions() si l'utilisateur est un enseignant et sur le tableau de bord
+                    if (typeof loadTeacherSessions === 'function') {
+                        loadTeacherSessions();
+                    }
                 }
                     } else if (userData.role === 'student') {
                         roleInfoElement.textContent = "Tableau de bord élèves";

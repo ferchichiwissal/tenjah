@@ -34,6 +34,7 @@
                             <div id="matieres-list">
                                 <p>Chargement des matières...</p>
                             </div>
+                            <button id="create-meet-btn" class="btn-primary" style="margin-top: 20px;">Créer une réunion</button>
                         </section>
                     </div>
 
@@ -73,6 +74,47 @@
                 </div>
             </div>
 
+            <!-- Modale pour la création de séance de meet -->
+            <div id="create-meet-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" id="close-meet-modal">&times;</span>
+                    <h3>Créer une Séance de Réunion</h3>
+                    <form id="meet-session-form">
+                        <div class="form-group">
+                            <label for="meet-matiere-select">Matière:</label>
+                            <select id="meet-matiere-select" name="matiere_id" required>
+                                <option value="">Sélectionnez une matière</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meet-group-select">Groupe:</label>
+                            <select id="meet-group-select" name="group_id" required>
+                                <option value="">Sélectionnez un groupe</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="meet-date-seance">Date de la séance:</label>
+                            <input type="date" id="meet-date-seance" name="date_seance" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="meet-time-seance">Heure de la séance:</label>
+                            <input type="time" id="meet-time-seance" name="time_seance" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Créer la Séance</button>
+                        <button type="button" id="cancel-meet-session-btn" class="btn-secondary">Annuler</button>
+                    </form>
+                    <p id="meet-session-message" style="margin-top: 15px;"></p>
+                </div>
+            </div>
+
+            <!-- Nouvelle section pour afficher les séances de l'enseignant -->
+            <section id="teacher-sessions-section" class="dashboard-panel">
+                <h2>Mes Séances de Réunion</h2>
+                <div id="sessions-list">
+                    <p>Chargement des séances...</p>
+                </div>
+            </section>
+
             <!-- Section de création d'annonce (déplacée en dehors du flux principal pour un affichage conditionnel) -->
             <section id="create-annonce-section" class="dashboard-panel" style="display: none;">
                 <h2>Créer une Nouvelle Annonce</h2>
@@ -99,7 +141,7 @@
                         <input type="text" id="niveau" name="niveau" placeholder="Ex: BAC, Licence 1, 3ème" required>
                     </div>
                     <div class="form-group">
-                        <label for="prix-unitaire">Prix Unitaire (€/heure):</label>
+                        <label for="prix-unitaire">Prix Unitaire (dt/Cours):</label>
                         <input type="number" id="prix-unitaire" name="prix_unitaire" step="0.01" min="0" required>
                     </div>
                     <button type="submit" class="btn-primary">Publier l'Annonce</button>
@@ -129,7 +171,24 @@
             const eleveDetailsSection = document.getElementById('eleve-details-section');
             const selectedMatiereEleves = document.getElementById('selected-matiere-eleves');
 
-            // Fonction pour charger les matières
+            // Nouveaux éléments pour la modale de création de séance
+            const createMeetBtn = document.getElementById('create-meet-btn');
+            const createMeetModal = document.getElementById('create-meet-modal');
+            const closeMeetModal = document.getElementById('close-meet-modal');
+            const cancelMeetSessionBtn = document.getElementById('cancel-meet-session-btn');
+            const meetSessionForm = document.getElementById('meet-session-form');
+            const meetGroupSelect = document.getElementById('meet-group-select');
+            const meetMatiereSelect = document.getElementById('meet-matiere-select');
+            // const meetPriceInput = document.getElementById('meet-price'); // Supprimé car l'utilisateur ne veut pas de champ de saisie de prix
+            const meetSessionMessage = document.getElementById('meet-session-message');
+            const teacherSessionsSection = document.getElementById('teacher-sessions-section'); // Nouvelle section
+            const sessionsList = document.getElementById('sessions-list'); // Liste des séances
+
+            let selectedAnnoncePrice = 0; // Variable pour stocker le prix de l'annonce sélectionnée
+
+            let allTeacherMatieres = []; // Pour stocker toutes les matières de l'enseignant avec leurs annonces et groupes
+
+            // Fonction pour charger les matières (pour le formulaire d'annonce)
             async function loadMatieres() {
                 try {
                     const response = await fetch('../backend/get_matieres.php');
@@ -182,6 +241,8 @@
                 matiereSelect.value = ''; // Reset select to default
                 inscriptionsElevesSection.style.display = 'none'; // Masquer la section des inscriptions
                 eleveDetailsSection.style.display = 'none'; // Masquer la section des détails des élèves
+                createMeetModal.style.display = 'none'; // Masquer la modale de meet si ouverte
+                teacherSessionsSection.style.display = 'none'; // Masquer la section des séances
             });
 
             cancelAnnonceBtn.addEventListener('click', function() {
@@ -259,6 +320,7 @@
                     const result = await response.json();
 
                     if (result.success) {
+                        allTeacherMatieres = result.matieres; // Stocker toutes les matières pour la modale de meet
                         matieresList.innerHTML = ''; // Clear previous content
                         selectedMatiereEleves.innerHTML = '<p>Sélectionnez une matière pour voir les élèves inscrits.</p>'; // Reset right panel
 
@@ -350,11 +412,223 @@
                 }
             }
 
+            // Gérer l'ouverture de la modale de création de séance
+            createMeetBtn.addEventListener('click', function() {
+                createMeetModal.style.display = 'block';
+                meetSessionForm.reset();
+                meetSessionMessage.textContent = '';
+                selectedAnnoncePrice = 0; // Réinitialiser le prix
+                populateMeetDropdowns(); // Charger les dropdowns
+                createAnnonceSection.style.display = 'none'; // Masquer la section d'annonce
+                eleveDetailsSection.style.display = 'none'; // Masquer la section des détails des élèves
+                teacherSessionsSection.style.display = 'none'; // Masquer la section des séances
+            });
+
+            // Gérer la fermeture de la modale de création de séance
+            closeMeetModal.addEventListener('click', function() {
+                createMeetModal.style.display = 'none';
+            });
+
+            cancelMeetSessionBtn.addEventListener('click', function() {
+                createMeetModal.style.display = 'none';
+            });
+
+            // Fermer la modale si l'utilisateur clique en dehors
+            window.addEventListener('click', function(event) {
+                if (event.target == createMeetModal) {
+                    createMeetModal.style.display = 'none';
+                }
+            });
+
+            // Fonction pour populer les dropdowns de la modale de meet
+            function populateMeetDropdowns() {
+                // Remplir le dropdown des matières
+                meetMatiereSelect.innerHTML = '<option value="">Sélectionnez une matière</option>';
+                allTeacherMatieres.forEach(matiereData => {
+                    const option = document.createElement('option');
+                    option.value = matiereData.matiere_id;
+                    option.textContent = matiereData.matiere_nom;
+                    meetMatiereSelect.appendChild(option);
+                });
+
+                // Remplir le dropdown des groupes (initialement vide, sera rempli après sélection de matière)
+                meetGroupSelect.innerHTML = '<option value="">Sélectionnez un groupe</option>';
+                selectedAnnoncePrice = 0; // Réinitialiser le prix lors du remplissage initial
+            }
+
+            // Gérer le changement de matière pour remplir les groupes et le prix
+            meetMatiereSelect.addEventListener('change', function() {
+                const selectedMatiereId = this.value;
+                meetGroupSelect.innerHTML = '<option value="">Sélectionnez un groupe</option>';
+                selectedAnnoncePrice = 0; // Réinitialiser le prix
+
+                if (selectedMatiereId) {
+                    const selectedMatiere = allTeacherMatieres.find(m => m.matiere_id == selectedMatiereId);
+                    if (selectedMatiere) {
+                        // Remplir les groupes pour la matière sélectionnée
+                        selectedMatiere.groups.forEach(group => {
+                            const option = document.createElement('option');
+                            option.value = group.id;
+                            option.textContent = group.nom;
+                            meetGroupSelect.appendChild(option);
+                        });
+                        // Le prix sera mis à jour quand un groupe est sélectionné
+                    }
+                }
+            });
+
+            // Gérer le changement de groupe pour mettre à jour le prix
+            meetGroupSelect.addEventListener('change', function() {
+                const selectedGroupId = this.value;
+                const selectedMatiereId = meetMatiereSelect.value;
+                selectedAnnoncePrice = 0; // Réinitialiser le prix
+
+                if (selectedGroupId && selectedMatiereId) {
+                    const selectedMatiere = allTeacherMatieres.find(m => m.matiere_id == selectedMatiereId);
+                    if (selectedMatiere) {
+                        const selectedGroup = selectedMatiere.groups.find(g => g.id == selectedGroupId);
+                        if (selectedGroup && selectedGroup.annonce_prix_unitaire) {
+                            selectedAnnoncePrice = selectedGroup.annonce_prix_unitaire;
+                            // Afficher le prix quelque part si l'utilisateur veut le voir, sinon juste le stocker
+                            // Par exemple, dans un paragraphe:
+                            // document.getElementById('meet-price-display').textContent = `Prix: ${selectedAnnoncePrice} DT`;
+                        }
+                    }
+                }
+            });
+
+            // Gérer la soumission du formulaire de création de séance
+            meetSessionForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                meetSessionMessage.textContent = 'Création de la séance...';
+                meetSessionMessage.style.color = 'blue';
+
+                const formData = new FormData(meetSessionForm);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                // Combiner la date et l'heure sélectionnées par l'utilisateur
+                const selectedDate = document.getElementById('meet-date-seance').value;
+                const selectedTime = document.getElementById('meet-time-seance').value;
+                if (!selectedDate || !selectedTime) {
+                    meetSessionMessage.textContent = 'Veuillez sélectionner une date et une heure pour la séance.';
+                    meetSessionMessage.style.color = 'red';
+                    return;
+                }
+                data['start_time'] = `${selectedDate} ${selectedTime}:00`; // Format YYYY-MM-DD HH:MM:SS
+
+                // Supprimer l'envoi de meet_link et price
+                delete data['meet_link']; // Assurez-vous que cette clé n'est pas dans formData si le champ est supprimé
+                delete data['price']; // Supprimer l'envoi du prix
+
+                console.log('Données envoyées pour la création de séance:', data); // Ajout pour le débogage
+                try {
+                    const response = await fetch('../backend/create_meet_session.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        meetSessionMessage.textContent = 'Séance créée avec succès ! Redirection vers Google Meet...';
+                        meetSessionMessage.style.color = 'green';
+                        meetSessionForm.reset();
+                        selectedAnnoncePrice = 0;
+                        createMeetModal.style.display = 'none'; // Fermer la modale
+                        loadInscriptions(); // Recharger les inscriptions
+                        loadTeacherSessions(); // Recharger les séances de l'enseignant
+
+                    } else {
+                        meetSessionMessage.textContent = 'Erreur: ' + result.message;
+                        meetSessionMessage.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Erreur réseau lors de la création de la séance:', error);
+                    meetSessionMessage.textContent = 'Erreur réseau lors de la création de la séance.';
+                    meetSessionMessage.style.color = 'red';
+                }
+            });
+
+            // Nouvelle fonction pour charger et afficher les séances de l'enseignant
+            window.loadTeacherSessions = async function() {
+                try {
+                    const response = await fetch('../backend/get_teacher_sessions.php');
+                    const result = await response.json();
+
+                    sessionsList.innerHTML = ''; // Clear previous content
+
+                    if (result.success && result.sessions && result.sessions.length > 0) {
+                        result.sessions.forEach(session => {
+                            const sessionDateTime = new Date(session.date_seance);
+                            const joinTime = new Date(sessionDateTime.getTime() - 10 * 60 * 1000); // 10 minutes avant
+                            const currentTime = new Date();
+
+                            const canJoin = currentTime >= joinTime && currentTime <= sessionDateTime;
+
+                            const sessionItem = document.createElement('div');
+                            sessionItem.classList.add('session-item');
+                            sessionItem.innerHTML = `
+                                <h4>${session.annonce_titre} - ${session.matiere_nom}</h4>
+                                <p>Groupe: ${session.groupe_nom}</p>
+                                <p>Date et Heure: ${new Date(session.date_seance).toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' })}</p>
+                                <button class="btn-join-meet" data-session-id="${session.seance_id}" ${canJoin ? '' : 'disabled'}>
+                                    ${canJoin ? 'Rejoindre la séance' : `Rejoindre à ${joinTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
+                                </button>
+                            `;
+                            sessionsList.appendChild(sessionItem);
+                        });
+
+                        // Ajouter les écouteurs d'événements pour les boutons "Rejoindre"
+                        document.querySelectorAll('.btn-join-meet').forEach(button => {
+                            button.addEventListener('click', function() {
+                                if (!this.disabled) {
+                                    window.open('https://meet.google.com/qjm-wrkk-cbj', '_blank');
+                                }
+                            });
+                        });
+
+                        // Mettre à jour l'état des boutons toutes les minutes
+                        setInterval(updateJoinButtons, 60 * 1000);
+
+                    } else {
+                        sessionsList.innerHTML = '<p>Aucune séance de réunion prévue pour le moment.</p>';
+                    }
+                    teacherSessionsSection.style.display = 'block'; // Afficher la section des séances
+                } catch (error) {
+                    console.error('Erreur réseau lors du chargement des séances de l\'enseignant:', error);
+                    sessionsList.innerHTML = '<p>Erreur réseau lors du chargement des séances.</p>';
+                    teacherSessionsSection.style.display = 'block';
+                }
+            }
+
+            function updateJoinButtons() {
+                document.querySelectorAll('.session-item').forEach(sessionItem => {
+                    const sessionDateTimeStr = sessionItem.querySelector('p:nth-child(3)').textContent.replace('Date et Heure: ', '');
+                    const sessionDateTime = new Date(sessionDateTimeStr); // Assurez-vous que le format est parsable
+                    const joinTime = new Date(sessionDateTime.getTime() - 10 * 60 * 1000);
+                    const currentTime = new Date();
+                    const canJoin = currentTime >= joinTime && currentTime <= sessionDateTime;
+                    const button = sessionItem.querySelector('.btn-join-meet');
+
+                    if (button) {
+                        button.disabled = !canJoin;
+                        button.textContent = canJoin ? 'Rejoindre la séance' : `Rejoindre à ${joinTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
+                    }
+                });
+            }
+
             // La fonction checkUserRole est définie dans auth.js
             // Elle est appelée au chargement de la page et gère l'affichage des sections
-            // Nous allons modifier auth.js pour qu'il appelle loadInscriptions si l'utilisateur est un enseignant.
+            // Nous allons modifier auth.js pour qu'il appelle loadInscriptions et loadTeacherSessions si l'utilisateur est un enseignant.
             // Pour l'instant, nous allons commenter l'appel direct ici.
             // loadInscriptions();
+            // loadTeacherSessions();
         });
     </script>
 </body>

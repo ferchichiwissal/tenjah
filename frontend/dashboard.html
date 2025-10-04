@@ -192,12 +192,21 @@
             </form>
             <p id="annonce-message" style="margin-top: 15px;"></p>
         </section>
+
+        <!-- Section des inscriptions des élèves (visible uniquement pour les enseignants) -->
+        <section id="inscriptions-eleves-section" style="display: none; width: 80%; max-width: 900px; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top: 30px; text-align: left;">
+            <h2>Inscriptions de vos élèves</h2>
+            <div id="inscriptions-list">
+                <p>Chargement des inscriptions...</p>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 El Najeh. Tous droits réservés.</p>
     </footer>
     <script src="js/auth.js"></script>
+    <script src="js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const createAnnonceBtn = document.getElementById('create-annonce-btn');
@@ -207,6 +216,8 @@
             const matiereSelect = document.getElementById('matiere-select');
             const newMatiereInput = document.getElementById('new-matiere-input');
             const annonceMessage = document.getElementById('annonce-message');
+            const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
+            const inscriptionsList = document.getElementById('inscriptions-list');
 
             // Fonction pour charger les matières
             async function loadMatieres() {
@@ -259,11 +270,13 @@
                 newMatiereInput.style.display = 'none'; // Hide new matiere input
                 newMatiereInput.removeAttribute('required');
                 matiereSelect.value = ''; // Reset select to default
+                inscriptionsElevesSection.style.display = 'none'; // Masquer la section des inscriptions
             });
 
             cancelAnnonceBtn.addEventListener('click', function() {
                 createAnnonceSection.style.display = 'none';
                 createAnnonceBtn.style.display = 'block';
+                loadInscriptions(); // Recharger les inscriptions si on annule la création d'annonce
             });
 
             // Gérer la soumission du formulaire d'annonce
@@ -326,6 +339,63 @@
                     annonceMessage.style.color = 'red';
                 }
             });
+
+            // Fonction pour charger les inscriptions des élèves
+            async function loadInscriptions() {
+                try {
+                    const response = await fetch('../backend/get_inscriptions_enseignant.php');
+                    const result = await response.json();
+
+                    if (result.success) {
+                        inscriptionsList.innerHTML = ''; // Clear previous content
+                        if (Object.keys(result.inscriptions).length > 0) {
+                            for (const matiere in result.inscriptions) {
+                                const matiereDiv = document.createElement('div');
+                                matiereDiv.classList.add('matiere-inscriptions');
+
+                                const matiereTitle = document.createElement('h3');
+                                matiereTitle.textContent = matiere;
+                                matiereTitle.style.cursor = 'pointer';
+                                matiereTitle.classList.add('matiere-title');
+                                matiereDiv.appendChild(matiereTitle);
+
+                                const elevesList = document.createElement('ul');
+                                elevesList.classList.add('eleves-list');
+                                elevesList.style.display = 'none'; // Hidden by default
+
+                                result.inscriptions[matiere].forEach(eleve => {
+                                    const listItem = document.createElement('li');
+                                    listItem.innerHTML = `
+                                        <strong>${eleve.eleve_prenom} ${eleve.eleve_nom}</strong> (${eleve.eleve_email}) - Inscrit à l'annonce: "${eleve.annonce_titre}" le ${eleve.date_inscription}
+                                    `;
+                                    elevesList.appendChild(listItem);
+                                });
+                                matiereDiv.appendChild(elevesList);
+                                inscriptionsList.appendChild(matiereDiv);
+
+                                // Toggle visibility on click
+                                matiereTitle.addEventListener('click', () => {
+                                    elevesList.style.display = elevesList.style.display === 'none' ? 'block' : 'none';
+                                });
+                            }
+                            inscriptionsElevesSection.style.display = 'block'; // Show the section
+                        } else {
+                            inscriptionsList.innerHTML = '<p>Aucun élève inscrit à vos annonces pour le moment.</p>';
+                            inscriptionsElevesSection.style.display = 'block'; // Show the section
+                        }
+                    } else {
+                        inscriptionsList.innerHTML = '<p>Erreur lors du chargement des inscriptions: ' + result.message + '</p>';
+                        inscriptionsElevesSection.style.display = 'block'; // Show the section
+                    }
+                } catch (error) {
+                    console.error('Erreur réseau lors du chargement des inscriptions:', error);
+                    inscriptionsList.innerHTML = '<p>Erreur réseau lors du chargement des inscriptions.</p>';
+                        inscriptionsElevesSection.style.display = 'block'; // Show the section
+                }
+            }
+
+            // Charger les inscriptions au chargement de la page
+            loadInscriptions();
         });
     </script>
 </body>

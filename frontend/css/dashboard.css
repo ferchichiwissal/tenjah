@@ -81,3 +81,53 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Styles pour la section des inscriptions */
+#inscriptions-eleves-section {
+    margin-top: 30px;
+    text-align: left;
+}
+
+#inscriptions-eleves-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.matiere-inscriptions {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.matiere-title {
+    color: #4CAF50;
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.matiere-title:hover {
+    text-decoration: underline;
+}
+
+.eleves-list {
+    list-style: none;
+    padding: 0;
+    margin-left: 20px;
+    border-left: 2px solid #4CAF50;
+    padding-left: 15px;
+}
+
+.eleves-list li {
+    margin-bottom: 8px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.eleves-list li strong {
+    color: #333;
+}

@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS education_platform_db;
+USE education_platform_db;
+
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS inscription;
 DROP TABLE IF EXISTS evaluation;

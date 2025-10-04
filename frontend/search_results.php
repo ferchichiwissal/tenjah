@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultats de recherche - Plateforme Éducative</title>
+    <title>Résultats de recherche </title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -89,8 +89,8 @@
                             echo '<p><strong>Niveau:</strong> ' . htmlspecialchars($row['niveau']) . '</p>';
                             echo '<p><strong>Enseignant:</strong> ' . htmlspecialchars($row['teacher_prenom']) . ' ' . htmlspecialchars($row['teacher_nom']) . '</p>';
                             echo '<p>' . htmlspecialchars(substr($row['description'], 0, 150)) . '...</p>';
-                            echo '<p class="price"><strong>Prix:</strong> ' . htmlspecialchars($row['prix_unitaire']) . ' €/heure</p>';
-                            echo '<a href="annonce_detail.php?id=' . htmlspecialchars($row['annonce_id']) . '" class="btn-details">Voir les détails</a>';
+                            echo '<p class="price"><strong>Prix:</strong> ' . htmlspecialchars($row['prix_unitaire']) . 'dt/cours</p>';
+                            echo '<button class="btn-details btn-inscrire" data-annonce-id="' . htmlspecialchars($row['annonce_id']) . '">S\'inscrire</button>';
                             echo '</div>';
                         }
                     } else {
@@ -166,5 +166,55 @@
 
     <script src="js/auth.js"></script>
     <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inscriptionButtons = document.querySelectorAll('.btn-inscrire');
+
+            inscriptionButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const annonceId = event.target.dataset.annonceId;
+
+                    if (!annonceId) {
+                        alert('Erreur: ID de l\'annonce manquant.');
+                        return;
+                    }
+
+                    // Vérifier si l'utilisateur est connecté et est un élève
+                    const userInfoResponse = await fetch('../backend/get_user_info.php');
+                    const userData = await userInfoResponse.json();
+
+                    if (!userData.loggedIn || userData.role !== 'student') {
+                        alert('Vous devez être connecté en tant qu\'élève pour vous inscrire à une annonce.');
+                        window.location.href = 'login.html'; // Rediriger vers la page de connexion
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('../backend/inscrire_eleve.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `annonce_id=${annonceId}`
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            alert(result.message);
+                            // Optionnel: désactiver le bouton ou changer son texte après inscription réussie
+                            event.target.disabled = true;
+                            event.target.textContent = 'Inscrit';
+                        } else {
+                            alert('Échec de l\'inscription: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'inscription:', error);
+                        alert('Une erreur est survenue lors de l\'inscription.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

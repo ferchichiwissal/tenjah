@@ -37,10 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (userData.role === 'teacher') {
                         roleInfoElement.textContent = "Tableau de bord enseignant";
                         // Afficher le bouton "Créer une Annonce" si l'utilisateur est un enseignant
-                        const createAnnonceBtn = document.getElementById('create-annonce-btn');
-                        if (createAnnonceBtn) {
-                            createAnnonceBtn.style.display = 'block';
-                        }
+                const createAnnonceBtn = document.getElementById('create-annonce-btn');
+                const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
+
+                if (createAnnonceBtn) {
+                    createAnnonceBtn.style.display = 'block';
+                }
+                if (inscriptionsElevesSection) {
+                    inscriptionsElevesSection.style.display = 'block';
+                }
                     } else if (userData.role === 'student') {
                         roleInfoElement.textContent = "Tableau de bord élèves";
                     } else {

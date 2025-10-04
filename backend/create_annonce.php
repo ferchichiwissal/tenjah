@@ -12,7 +12,22 @@ if (!is_logged_in() || !is_teacher($conn)) {
     exit();
 }
 
-$teacher_id = get_current_user_id(); // Récupérer l'ID de l'enseignant connecté
+$user_id = get_current_user_id(); // Récupérer l'ID de l'utilisateur connecté
+
+// Récupérer l'ID de l'enseignant à partir de l'ID de l'utilisateur
+$stmt = $conn->prepare("SELECT id FROM enseignant WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$enseignant_data = $result->fetch_assoc();
+$stmt->close();
+
+if (!$enseignant_data) {
+    $response['message'] = 'Erreur: Enseignant non trouvé.';
+    echo json_encode($response);
+    exit();
+}
+$enseignant_id = $enseignant_data['id'];
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -79,7 +94,7 @@ if (!$stmt) {
     echo json_encode($response);
     exit();
 }
-$stmt->bind_param("iisssd", $teacher_id, $matiere_id, $titre, $description, $niveau, $prix_unitaire);
+$stmt->bind_param("iisssd", $enseignant_id, $matiere_id, $titre, $description, $niveau, $prix_unitaire);
 
 if ($stmt->execute()) {
     $response['success'] = true;

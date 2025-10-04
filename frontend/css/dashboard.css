@@ -148,6 +148,18 @@ footer {
     margin-bottom: 20px; /* Espace entre les sections dans le même panneau */
 }
 
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
 .dashboard-panel h2 {
     color: #333;
     font-size: 1.8em;
@@ -312,6 +324,229 @@ footer {
     color: #333;
 }
 
+/* Styles pour le header des élèves inscrits avec le bouton */
+.eleves-inscrits-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.eleves-inscrits-header h2 {
+    margin: 0; /* Supprime la marge par défaut du h2 */
+    padding-bottom: 0; /* Supprime le padding-bottom hérité */
+    border-bottom: none; /* Supprime la bordure inférieure héritée */
+}
+
+/* Styles pour la modale */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-top: 5px;
+    background-color: #e0f7fa; /* Light blue background for groups */
+    border: 1px solid #b2ebf2;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #00796b;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.group-item:hover {
+    background-color: #b2ebf2;
+}
+
+.group-item .group-name {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.group-item .icon {
+    margin-right: 8px;
+    color: #00796b;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 30px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.students-checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+}
+
+.students-checkbox-list label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.students-checkbox-list input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Agrandir la checkbox */
+}
+
+/* Styles pour la liste des groupes sous une matière */
+.groupes-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    margin-left: 20px; /* Indenter les groupes sous la matière */
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    background-color: #e0f7fa; /* Couleur de fond pour les groupes */
+    border: 1px solid #b2ebf2;
+    border-radius: 5px;
+    font-size: 0.95em;
+    color: #00796b;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.group-item:hover {
+    background-color: #b2ebf2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.group-item.active {
+    background-color: #b2ebf2;
+    border-color: #00796b;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+/* Styles pour la modale */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 30px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.students-checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+}
+
+.students-checkbox-list label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.students-checkbox-list input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Agrandir la checkbox */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .dashboard-main-content {
@@ -322,5 +557,10 @@ footer {
     .left-panel, .right-panel {
         min-width: unset;
         width: 100%;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
     }
 }

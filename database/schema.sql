@@ -70,23 +70,34 @@ CREATE TABLE annonce (
     FOREIGN KEY (matiere_id) REFERENCES matiere(id) ON DELETE RESTRICT
 );
 
--- Table pour les groupes (liés à une annonce)
-CREATE TABLE groupes (
+-- Table pour les élèves (informations spécifiques aux utilisateurs ayant le rôle d'élève)
+CREATE TABLE eleve (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    annonce_id INT NOT NULL,
-    nom_groupe VARCHAR(255) NOT NULL,
-    description TEXT,
-    FOREIGN KEY (annonce_id) REFERENCES annonce(id) ON DELETE CASCADE
+    user_id INT NOT NULL UNIQUE, -- Un élève est un utilisateur
+    FOREIGN KEY (user_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
 
--- Table de liaison entre Utilisateur et Groupe (relation N-N)
+-- Table pour les groupes (liés à une matière et un enseignant)
+CREATE TABLE groupes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    matiere_id INT NOT NULL,
+    enseignant_id INT NOT NULL,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (matiere_id) REFERENCES matiere(id) ON DELETE CASCADE,
+    FOREIGN KEY (enseignant_id) REFERENCES enseignant(id) ON DELETE CASCADE,
+    UNIQUE (nom, matiere_id, enseignant_id) -- Un enseignant ne peut pas avoir deux groupes du même nom pour la même matière
+);
+
+-- Table de liaison entre Élève et Groupe (relation N-N)
 CREATE TABLE groupe_eleve (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    eleve_id INT NOT NULL, -- L'ID de l'élève (référence la table eleve)
     groupe_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    date_affectation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (eleve_id) REFERENCES eleve(id) ON DELETE CASCADE,
     FOREIGN KEY (groupe_id) REFERENCES groupes(id) ON DELETE CASCADE,
-    UNIQUE (user_id, groupe_id) -- Un élève ne peut appartenir qu'une fois à un groupe
+    UNIQUE (eleve_id, groupe_id) -- Un élève ne peut appartenir qu'une fois à un groupe
 );
 
 -- Table pour les séances (liées à une annonce et un groupe)
@@ -110,13 +121,6 @@ CREATE TABLE participation (
     UNIQUE (user_id, seance_id) -- Un utilisateur ne peut participer qu'une fois à une séance
 );
 
--- Table pour les élèves (informations spécifiques aux utilisateurs ayant le rôle d'élève)
-CREATE TABLE eleve (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL UNIQUE, -- Un élève est un utilisateur
-    FOREIGN KEY (user_id) REFERENCES utilisateur(id) ON DELETE CASCADE
-);
-
 -- Table pour les évaluations (d'un élève pour un enseignant)
 CREATE TABLE evaluation (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -134,9 +138,11 @@ CREATE TABLE inscription (
     id INT AUTO_INCREMENT PRIMARY KEY,
     eleve_id INT NOT NULL,
     annonce_id INT NOT NULL,
+    groupe_id INT NULL, -- Nouvelle colonne pour l'affectation aux groupes
     date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (eleve_id) REFERENCES eleve(id) ON DELETE CASCADE,
     FOREIGN KEY (annonce_id) REFERENCES annonce(id) ON DELETE CASCADE,
+    FOREIGN KEY (groupe_id) REFERENCES groupes(id) ON DELETE SET NULL, -- Clé étrangère vers la table groupes
     UNIQUE (eleve_id, annonce_id) -- Un élève ne peut s'inscrire qu'une fois à une annonce
 );
 

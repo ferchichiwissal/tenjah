@@ -40,9 +40,33 @@
                     <div class="right-content-wrapper">
                         <!-- Section pour afficher les détails des élèves pour la matière sélectionnée -->
                         <section id="eleve-details-section" class="dashboard-panel" style="display: none;">
-                            <h2>Élèves inscrits</h2>
+                            <div class="section-header">
+                                <h2>Élèves inscrits</h2>
+                                <button id="manage-groups-btn" class="btn-secondary">Gérer les Groupes</button>
+                            </div>
                             <div id="selected-matiere-eleves">
                                 <p>Sélectionnez une matière pour voir les élèves inscrits.</p>
+                            </div>
+                            <!-- Interface de gestion des groupes (modale) -->
+                            <div id="group-management-modal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close-button">&times;</span>
+                                    <h3>Gestion des Groupes pour <span id="modal-matiere-name"></span></h3>
+                                    <p id="group-management-message" style="margin-bottom: 15px;"></p>
+                                    
+                                 
+
+                                    <h4>Créer un nouveau groupe</h4>
+                                    <div class="form-group">
+                                        <label for="new-group-name">Nom du groupe:</label>
+                                        <input type="text" id="new-group-name" placeholder="Ex: Groupe A, Groupe de Travail 1" required>
+                                    </div>
+                                    <div id="unassigned-students-list-for-creation" class="student-selection-list" style="margin-top: 15px;">
+                                        <!-- Les élèves non affectés seront chargés ici pour la sélection lors de la création de groupe -->
+                                        <p>Chargement des élèves non affectés...</p>
+                                    </div>
+                                    <button id="create-group-btn" class="btn-primary" style="margin-top: 10px;">Créer le Groupe</button>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -238,49 +262,91 @@
                         matieresList.innerHTML = ''; // Clear previous content
                         selectedMatiereEleves.innerHTML = '<p>Sélectionnez une matière pour voir les élèves inscrits.</p>'; // Reset right panel
 
-                        if (Object.keys(result.inscriptions).length > 0) {
-                            for (const matiere in result.inscriptions) {
+                        if (result.matieres && result.matieres.length > 0) {
+                            result.matieres.forEach(matiereData => {
                                 const matiereItem = document.createElement('div');
                                 matiereItem.classList.add('matiere-item');
+                                matiereItem.dataset.matiereId = matiereData.matiere_id;
+                                matiereItem.dataset.matiereName = matiereData.matiere_nom;
                                 matiereItem.innerHTML = `
-                                    <div class="matiere-name">${matiere}</div>
+                                    <div class="matiere-name">${matiereData.matiere_nom}</div>
+                                    <ul class="group-names-list">
+                                        ${matiereData.groups.map(group => `<li>${group.nom}</li>`).join('')}
+                                        ${matiereData.unassigned_students.length > 0 ? '<li>Non affectés</li>' : ''}
+                                    </ul>
                                 `;
                                 matieresList.appendChild(matiereItem);
 
                                 // Add click event to show students for this matiere
                                 matiereItem.addEventListener('click', () => {
-                                    // Remove active class from all matiere items
                                     document.querySelectorAll('.matiere-item').forEach(item => item.classList.remove('active'));
-                                    // Add active class to the clicked item
                                     matiereItem.classList.add('active');
 
-                                    selectedMatiereEleves.innerHTML = `<h3>Élèves inscrits à ${matiere}</h3>`;
-                                    const elevesList = document.createElement('ul');
-                                    elevesList.classList.add('eleves-list');
+                                    // Update currentMatiereId and currentMatiereName for group management
+                                    currentMatiereId = matiereData.matiere_id;
+                                    currentMatiereName = matiereData.matiere_nom;
 
-                                    result.inscriptions[matiere].forEach(eleve => {
-                                        const listItem = document.createElement('li');
-                                        listItem.innerHTML = `
-                                            <strong>${eleve.eleve_prenom} ${eleve.eleve_nom}</strong> (${eleve.eleve_email}) - Inscrit à l'annonce: "${eleve.annonce_titre}" le ${eleve.date_inscription}
+                                    selectedMatiereEleves.innerHTML = `<h3>Élèves inscrits à ${matiereData.matiere_nom}</h3>`;
+                                    
+                                    // Display groups and their students
+                                    if (matiereData.groups.length > 0) {
+                                        matiereData.groups.forEach(group => {
+                                            const groupDiv = document.createElement('div');
+                                            groupDiv.classList.add('group-card');
+                                            groupDiv.innerHTML = `
+                                                <h4>${group.nom}</h4>
+                                                <ul class="student-list">
+                                                    ${group.students.map(student => `
+                                                        <li>
+                                                            ${student.eleve_prenom} ${student.eleve_nom}
+                                                        </li>
+                                                    `).join('')}
+                                                </ul>
+                                            `;
+                                            selectedMatiereEleves.appendChild(groupDiv);
+                                        });
+                                    }
+
+                                    // Display unassigned students
+                                    if (matiereData.unassigned_students.length > 0) {
+                                        const unassignedDiv = document.createElement('div');
+                                        unassignedDiv.classList.add('group-card');
+                                        unassignedDiv.innerHTML = `
+                                            <h4>Non affectés</h4>
+                                            <ul class="student-list">
+                                                ${matiereData.unassigned_students.map(student => `
+                                                    <li>
+                                                        ${student.eleve_prenom} ${student.eleve_nom}
+                                                    </li>
+                                                `).join('')}
+                                            </ul>
                                         `;
-                                        elevesList.appendChild(listItem);
-                                    });
-                                    selectedMatiereEleves.appendChild(elevesList);
+                                        selectedMatiereEleves.appendChild(unassignedDiv);
+                                    } else if (matiereData.groups.length === 0) {
+                                        selectedMatiereEleves.innerHTML += '<p>Aucun élève inscrit ou tous les élèves sont affectés à un groupe.</p>';
+                                    }
                                     eleveDetailsSection.style.display = 'block'; // Show right panel
                                 });
-                            }
+                            });
                         } else {
-                            matieresList.innerHTML = '<p>Aucun élève inscrit à vos annonces pour le moment.</p>';
+                            matieresList.innerHTML = '<p>Aucune matière avec des élèves inscrits pour le moment.</p>';
                         }
-                        inscriptionsElevesSection.style.display = 'block'; // Always show the left section if it's an teacher
+                        inscriptionsElevesSection.style.display = 'block';
                     } else {
-                        matieresList.innerHTML = '<p>Erreur lors du chargement des inscriptions: ' + result.message + '</p>';
-                        inscriptionsElevesSection.style.display = 'block'; // Show the section
+                        let errorMessage = '<p>Erreur lors du chargement des inscriptions: ' + result.message + '</p>';
+                        if (result.error_details) {
+                            errorMessage += '<p>Détails: ' + result.error_details + '</p>';
+                        }
+                        if (result.trace) {
+                            errorMessage += '<pre>Trace: ' + result.trace + '</pre>';
+                        }
+                        matieresList.innerHTML = errorMessage;
+                        inscriptionsElevesSection.style.display = 'block';
                     }
                 } catch (error) {
                     console.error('Erreur réseau lors du chargement des inscriptions:', error);
                     matieresList.innerHTML = '<p>Erreur réseau lors du chargement des inscriptions.</p>';
-                    inscriptionsElevesSection.style.display = 'block'; // Show the section
+                    inscriptionsElevesSection.style.display = 'block';
                 }
             }
 

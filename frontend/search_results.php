@@ -11,11 +11,7 @@
     <header>
         <nav>
             <div class="logo">Tenjah</div>
-            <ul>
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="#">Cours</a></li>
-                <li><a href="#">À propos</a></li>
-                <li><a href="#">Contact</a></li>
+       
             </ul>
             <div id="user-nav">
                 <!-- User profile will be loaded here by JavaScript -->

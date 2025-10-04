@@ -9,16 +9,38 @@ $conn = new mysqli($servername, $username, $password);
 
 // Vérifier la connexion au serveur MySQL
 if ($conn->connect_error) {
-    die("Échec de la connexion au serveur MySQL : " . $conn->connect_error);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Échec de la connexion au serveur MySQL.',
+        'error_details' => $conn->connect_error
+    ]);
+    exit();
 }
 
 // Vérifier si la base de données existe, sinon la créer
 $sql_create_db = "CREATE DATABASE IF NOT EXISTS $dbname";
 if ($conn->query($sql_create_db) === TRUE) {
-    // echo "Base de données '$dbname' créée ou déjà existante.<br>";
+    // Base de données créée ou déjà existante.
 } else {
-    die("Erreur lors de la création de la base de données : " . $conn->error);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erreur lors de la création de la base de données.',
+        'error_details' => $conn->error
+    ]);
+    $conn->close();
+    exit();
 }
 
 // Sélectionner la base de données
-$conn->select_db($dbname);
+if (!$conn->select_db($dbname)) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erreur lors de la sélection de la base de données.',
+        'error_details' => $conn->error
+    ]);
+    $conn->close();
+    exit();
+}

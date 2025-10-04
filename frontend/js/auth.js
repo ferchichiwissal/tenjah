@@ -34,9 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (roleInfoElement) {
-                    if (userData.role === 'enseignant') {
+                    if (userData.role === 'teacher') {
                         roleInfoElement.textContent = "Tableau de bord enseignant";
-                    } else if (userData.role === 'eleve') {
+                        // Afficher le bouton "Créer une Annonce" si l'utilisateur est un enseignant
+                        const createAnnonceBtn = document.getElementById('create-annonce-btn');
+                        if (createAnnonceBtn) {
+                            createAnnonceBtn.style.display = 'block';
+                        }
+                    } else if (userData.role === 'student') {
                         roleInfoElement.textContent = "Tableau de bord élèves";
                     } else {
                         roleInfoElement.textContent = `Votre rôle: ${userData.role}`;

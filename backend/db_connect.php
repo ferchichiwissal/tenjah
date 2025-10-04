@@ -61,12 +61,24 @@ CREATE TABLE IF NOT EXISTS enseignant (
     FOREIGN KEY (user_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
 
+-- Table pour les matières
+CREATE TABLE IF NOT EXISTS matiere (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL UNIQUE
+);
+
 -- Table pour les annonces de cours
 CREATE TABLE IF NOT EXISTS annonce (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    enseignant_id INT NOT NULL,
+    matiere_id INT NOT NULL,
     titre VARCHAR(255) NOT NULL,
     description TEXT,
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    niveau VARCHAR(255),
+    prix_unitaire DECIMAL(10, 2) NOT NULL,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (enseignant_id) REFERENCES enseignant(id) ON DELETE CASCADE,
+    FOREIGN KEY (matiere_id) REFERENCES matiere(id) ON DELETE RESTRICT
 );
 
 -- Table pour les groupes (liés à une annonce)
@@ -94,7 +106,6 @@ CREATE TABLE IF NOT EXISTS seance (
     annonce_id INT NOT NULL,
     groupe_id INT NOT NULL,
     date_seance DATETIME NOT NULL,
-    prix DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (annonce_id) REFERENCES annonce(id) ON DELETE CASCADE,
     FOREIGN KEY (groupe_id) REFERENCES groupe(id) ON DELETE CASCADE
 );

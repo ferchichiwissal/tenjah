@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord - El Najeh</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,6 +82,60 @@
             padding: 20px;
             font-size: 0.9em;
         }
+        /* Styles pour le formulaire d'annonce */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -99,11 +154,179 @@
         <p id="user-info"></p>
         <p id="role-info"></p>
         <p>Explorez vos cours, gérez votre profil et connectez-vous avec d'autres utilisateurs.</p>
+
+        <!-- Bouton pour créer une annonce (visible uniquement pour les enseignants) -->
+        <button id="create-annonce-btn" class="btn-primary" style="display: none; margin-top: 20px;">Créer une Annonce</button>
+
+        <!-- Section de création d'annonce -->
+        <section id="create-annonce-section" style="display: none; width: 80%; max-width: 700px; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top: 30px; text-align: left;">
+            <h2>Créer une Nouvelle Annonce</h2>
+            <form id="annonce-form">
+                <div class="form-group">
+                    <label for="matiere-select">Matière:</label>
+                    <select id="matiere-select" name="matiere_id" required>
+                        <!-- Les options de matière seront chargées ici par JavaScript -->
+                        <option value="">Sélectionnez une matière</option>
+                        <option value="other">Autre (taper une nouvelle matière)</option>
+                    </select>
+                    <input type="text" id="new-matiere-input" name="new_matiere_name" placeholder="Entrez le nom de la nouvelle matière" style="display: none; margin-top: 10px;">
+                </div>
+                <div class="form-group">
+                    <label for="titre">Titre de l'annonce:</label>
+                    <input type="text" id="titre" name="titre" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="niveau">Niveau:</label>
+                    <input type="text" id="niveau" name="niveau" placeholder="Ex: BAC, Licence 1, 3ème" required>
+                </div>
+                <div class="form-group">
+                    <label for="prix-unitaire">Prix Unitaire (€/heure):</label>
+                    <input type="number" id="prix-unitaire" name="prix_unitaire" step="0.01" min="0" required>
+                </div>
+                <button type="submit" class="btn-primary">Publier l'Annonce</button>
+                <button type="button" id="cancel-annonce-btn" class="btn-secondary">Annuler</button>
+            </form>
+            <p id="annonce-message" style="margin-top: 15px;"></p>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 El Najeh. Tous droits réservés.</p>
     </footer>
     <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const createAnnonceBtn = document.getElementById('create-annonce-btn');
+            const createAnnonceSection = document.getElementById('create-annonce-section');
+            const cancelAnnonceBtn = document.getElementById('cancel-annonce-btn');
+            const annonceForm = document.getElementById('annonce-form');
+            const matiereSelect = document.getElementById('matiere-select');
+            const newMatiereInput = document.getElementById('new-matiere-input');
+            const annonceMessage = document.getElementById('annonce-message');
+
+            // Fonction pour charger les matières
+            async function loadMatieres() {
+                try {
+                    const response = await fetch('../backend/get_matieres.php');
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Clear existing options except "Sélectionnez une matière" and "Autre"
+                        matiereSelect.querySelectorAll('option:not([value=""]):not([value="other"])').forEach(option => option.remove());
+
+                        data.matieres.forEach(matiere => {
+                            const option = document.createElement('option');
+                            option.value = matiere.id;
+                            option.textContent = matiere.nom;
+                            matiereSelect.insertBefore(option, matiereSelect.lastElementChild); // Insert before "Autre"
+                        });
+                    } else {
+                        console.error('Erreur lors du chargement des matières:', data.message);
+                        annonceMessage.textContent = 'Erreur lors du chargement des matières: ' + data.message;
+                        annonceMessage.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Erreur réseau lors du chargement des matières:', error);
+                    annonceMessage.textContent = 'Erreur réseau lors du chargement des matières.';
+                    annonceMessage.style.color = 'red';
+                }
+            }
+
+            // Charger les matières au chargement de la page
+            loadMatieres();
+
+            // Gérer l'affichage du champ "Nouvelle matière"
+            matiereSelect.addEventListener('change', function() {
+                if (this.value === 'other') {
+                    newMatiereInput.style.display = 'block';
+                    newMatiereInput.setAttribute('required', 'required');
+                } else {
+                    newMatiereInput.style.display = 'none';
+                    newMatiereInput.removeAttribute('required');
+                }
+            });
+
+            // Afficher/Masquer la section de création d'annonce
+            createAnnonceBtn.addEventListener('click', function() {
+                createAnnonceSection.style.display = 'block';
+                createAnnonceBtn.style.display = 'none';
+                annonceMessage.textContent = ''; // Clear previous messages
+                annonceForm.reset(); // Reset form fields
+                newMatiereInput.style.display = 'none'; // Hide new matiere input
+                newMatiereInput.removeAttribute('required');
+                matiereSelect.value = ''; // Reset select to default
+            });
+
+            cancelAnnonceBtn.addEventListener('click', function() {
+                createAnnonceSection.style.display = 'none';
+                createAnnonceBtn.style.display = 'block';
+            });
+
+            // Gérer la soumission du formulaire d'annonce
+            annonceForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                annonceMessage.textContent = 'Publication de l\'annonce...';
+                annonceMessage.style.color = 'blue';
+
+                const formData = new FormData(annonceForm);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                // Si "Autre" est sélectionné, utiliser le champ new_matiere_name et supprimer matiere_id
+                if (data['matiere_id'] === 'other') {
+                    if (!data['new_matiere_name'] || data['new_matiere_name'].trim() === '') {
+                        annonceMessage.textContent = 'Veuillez entrer le nom de la nouvelle matière.';
+                        annonceMessage.style.color = 'red';
+                        return;
+                    }
+                    delete data['matiere_id']; // Remove matiere_id if a new one is being added
+                } else if (!data['matiere_id']) {
+                    annonceMessage.textContent = 'Veuillez sélectionner une matière.';
+                    annonceMessage.style.color = 'red';
+                    return;
+                } else {
+                    delete data['new_matiere_name']; // Remove new_matiere_name if an existing one is selected
+                }
+
+                try {
+                    const response = await fetch('../backend/create_annonce.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        annonceMessage.textContent = 'Annonce créée avec succès !';
+                        annonceMessage.style.color = 'green';
+                        annonceForm.reset(); // Réinitialiser le formulaire
+                        newMatiereInput.style.display = 'none';
+                        newMatiereInput.removeAttribute('required');
+                        matiereSelect.value = '';
+                        loadMatieres(); // Recharger les matières pour inclure la nouvelle si ajoutée
+                        // Optionnel: masquer le formulaire après succès
+                        // createAnnonceSection.style.display = 'none';
+                        // createAnnonceBtn.style.display = 'block';
+                    } else {
+                        annonceMessage.textContent = 'Erreur: ' + result.message;
+                        annonceMessage.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Erreur réseau lors de la création de l\'annonce:', error);
+                    annonceMessage.textContent = 'Erreur réseau lors de la création de l\'annonce.';
+                    annonceMessage.style.color = 'red';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

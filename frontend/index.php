@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Najeh - Trouvez le professeur parfait</title>
+    <title>Tenjah - Trouvez le professeur parfait</title>
     <link rel="stylesheet" href="css/style.css">
     <script>
         const loggedInUser = <?php echo isset($_SESSION['user_id']) ? json_encode(['id' => $_SESSION['user_id'], 'email' => $_SESSION['email'], 'nom' => $_SESSION['nom'], 'prenom' => $_SESSION['prenom']]) : 'null'; ?>;
@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav>
-            <div class="logo">El Najeh</div>
+            <div class="logo">Tenjah</div>
             <div id="guest-nav">
                 <ul>
                     <li><a href="register_teacher.html">Donner des cours</a></li>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="card">
                     <img src="images/course-en-ligne.jpg" alt="Cours en ligne">
-                    <h3>Les cours en ligne</h3>
+                    <h3>Autres</h3>
                     <p>86413 Professeurs</p>
                 </div>
             </div>
@@ -153,26 +153,26 @@
             <h2>Ce que nos élèves disent de nos professeurs</h2>
             <div class="testimonial-cards">
                 <div class="testimonial-card testimonial-card-green">
-                    <p>"I highly recommend Ivan as an English teacher. Their classes are engaging, well-structured, and adapted to my needs. Thanks to their guidance, I have improved my confidence, fluency, and overall communication skills in English."</p>
+                    <p>"Je recommande vivement Walid comme professeur d'anglais. Ses cours sont captivants, bien structurés et adaptés à mes besoins. Grâce à ses conseils, j'ai amélioré ma confiance en moi, ma fluidité et mes compétences générales en communication anglaise."</p>
                     <div class="author">
                         <img src="images/avatar_ivan.jpg" alt="Ivan">
-                        <span>Ivan<br>Prof d'anglais</span>
+                        <span>Walid<br>Prof d'anglais</span>
                     </div>
                     <div class="rating">⭐⭐⭐⭐⭐</div>
                 </div>
                 <div class="testimonial-card testimonial-card-yellow">
-                    <p>"J'ai pris 2 ans de cours avec Julien et j'aurais continué avec grand plaisir si je n'avais pas déménagé ! Il est très à l'écoute, repère rapidement ce qu'il faut corriger et m'a permis de beaucoup progresser alors que je n'en avais jamais"</p>
+                    <p>"J'ai pris 2 ans de cours avec Mariem et je suis très satisfaite ! Elle est très à l'écoute, repère rapidement ce qu'il faut corriger et m'a permis de beaucoup progresser alors que je n'avais jamais pratiqué auparavant"</p>
                     <div class="author">
                         <img src="images/avatar_julien.jpg" alt="Julien">
-                        <span>Julien<br>Prof de saxophone</span>
+                        <span>Mariem<br>Prof de guitare</span>
                     </div>
                     <div class="rating">⭐⭐⭐⭐⭐</div>
                 </div>
                 <div class="testimonial-card testimonial-card-green">
-                    <p>"I highly recommend Ivan as an English teacher. Their classes are engaging, well-structured, and adapted to my needs. Thanks to their guidance, I have improved my confidence, fluency, and overall communication skills in English."</p>
+                    <p>"Skander est un excellent prof d'informatique. Il est très pédagogue et a su m'expliquer tout les concepts de manière claire et concise. Je le recommande vivement."</p>
                     <div class="author">
-                        <img src="images/avatar_ivan.jpg" alt="Ivan">
-                        <span>Ivan<br>Prof d'anglais</span>
+                        <img src="images/etudiante.jpg" alt="Ivan">
+                        <span>Skander<br>Prof d'informatique</span>
                     </div>
                     <div class="rating">⭐⭐⭐⭐⭐</div>
                 </div>
@@ -211,8 +211,8 @@
             <div class="footer-column">
                 <h3>Ressources</h3>
                 <ul>
-                    <li><a href="#">El Najeh Magazine</a></li>
-                    <li><a href="#">El Najeh Ressources</a></li>
+                    <li><a href="#">Tenjah Magazine</a></li>
+                    <li><a href="#"> Ressources</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -235,7 +235,7 @@
         </div>
         <div class="footer-bottom">
             <hr>
-            <p>© 2025 El Najeh, la meilleure façon d'apprendre.</p>
+            <p>© 2025 Tenjaheh, la meilleure façon d'apprendre.</p>
         </div>
     </footer>
 

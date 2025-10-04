@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenjah - Trouvez le professeur parfait</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script>
         const loggedInUser = <?php echo isset($_SESSION['user_id']) ? json_encode(['id' => $_SESSION['user_id'], 'email' => $_SESSION['email'], 'nom' => $_SESSION['nom'], 'prenom' => $_SESSION['prenom']]) : 'null'; ?>;
     </script>
@@ -37,9 +38,19 @@
     <main>
         <section class="hero">
             <h1>Trouvez le professeur parfait</h1>
-            <div class="search-bar">
-                <input type="text" placeholder="Essayez "Échecs"">
-                <button>Rechercher</button>
+            <div class="search-bar-wrapper">
+                <form action="search_results.php" method="GET" class="search-bar-form">
+                    <div class="search-input-group">
+                        <span class="icon"><i class="fas fa-book"></i></span>
+                        <input type="text" name="matiere" id="search-matiere" class="search-input" placeholder="Essayez "Maths"">
+                    </div>
+                    <div class="separator"></div>
+                    <div class="search-input-group">
+                        <span class="icon"><i class="fas fa-graduation-cap"></i></span>
+                        <input type="text" name="niveau" id="search-niveau" class="search-input" placeholder="Niveau">
+                    </div>
+                    <button type="submit" class="search-button">Rechercher</button>
+                </form>
             </div>
             <div class="categories">
                 <div class="category-item"><img src="images/icon-maths.png" alt="Maths">Maths</div>

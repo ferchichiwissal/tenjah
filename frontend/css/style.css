@@ -50,7 +50,7 @@ nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-    background-color: #f0f2f5;
+    background-color: #f0f2f5; /* Couleur de fond rose clair */
     text-align: center;
     padding: 80px 20px;
     position: relative;
@@ -60,37 +60,87 @@ nav ul li a:hover {
 .hero h1 {
     font-size: 48px;
     color: #333;
-    margin-bottom: 30px;
+    margin-bottom: 60px; /* Augmenter l'espace sous le titre */
 }
 
-.search-bar {
+.search-bar-wrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    background-color: #fff;
+    border-radius: 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Ombre plus douce */
+    padding: 10px;
 }
 
-.search-bar input {
-    width: 400px;
-    padding: 15px 20px;
-    border: 1px solid #ddd;
-    border-radius: 25px 0 0 25px;
-    font-size: 16px;
+.search-bar-form {
+    display: flex;
+    flex-direction: row; /* Assurer une disposition en ligne */
+    flex-wrap: nowrap; /* Empêcher le retour à la ligne */
+    align-items: center;
+    width: 100%;
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Permet aux groupes d'entrée de prendre l'espace disponible */
+    padding: 0 15px;
+    min-width: 150px; /* Assure une largeur minimale pour chaque champ */
+}
+
+.search-input-group .icon {
+    color: #888;
+    margin-right: 10px;
+    font-size: 18px;
+    display: flex; /* Assure que l'icône est visible */
+    align-items: center;
+}
+
+.search-input-group .icon img {
+    display: none; /* Masquer les anciennes images d'icônes */
+}
+
+.search-input {
+    border: none;
     outline: none;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #555;
+    flex-grow: 1; /* Permet à l'input de prendre l'espace restant dans son groupe */
+    background-color: transparent;
+    width: 100%; /* Assure que l'input remplit son conteneur */
 }
 
-.search-bar button {
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.separator {
+    width: 1px;
+    height: 30px;
+    background-color: #eee;
+    margin: 0 10px;
+    flex-shrink: 0; /* Empêche le séparateur de rétrécir */
+}
+
+.search-button {
     background-color: #5ad3ff;
     color: #fff;
     border: none;
-    padding: 15px 30px;
-    border-radius: 0 25px 25px 0;
+    border-radius: 40px; /* Plus grand border-radius pour un look plus arrondi */
+    padding: 12px 25px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 10px;
+    flex-shrink: 0; /* Empêche le bouton de rétrécir */
 }
 
-.search-bar button:hover {
-    background-color: #e04a4f;
+.search-button:hover {
+    background-color: #5ad3ff;
 }
 
 /* Categories Section */
@@ -480,4 +530,87 @@ footer {
 
 .dropdown-menu a:hover {
     background-color: #f0f0f0;
+}
+
+/* Search Results Section */
+.search-results-section {
+    padding: 40px 20px;
+    background-color: #f0f2f5; /* Couleur de fond similaire à la section hero ou popular-courses */
+}
+
+.search-results-section h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.announcements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid with min width 300px */
+    gap: 30px; /* Espace entre les cartes */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.announcement-card {
+    background-color: #c3d8e8; /* Couleur de fond similaire au testimonial-card-green */
+    padding: 30px;
+    border-radius: 20px; /* Coins arrondis */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Ombre prononcée */
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.announcement-card:hover {
+    transform: translateY(-5px);
+}
+
+.announcement-card h2 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.announcement-card p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.announcement-card .price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.announcement-card .btn-details {
+    display: inline-block;
+    background-color: #5ad3ff; /* Couleur du bouton de recherche */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-top: auto; /* Pousse le bouton vers le bas */
+}
+
+.announcement-card .btn-details:hover {
+    background-color: #47b2e4; /* Couleur de survol légèrement plus foncée */
+}
+
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 30px;
 }

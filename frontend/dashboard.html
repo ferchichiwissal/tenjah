@@ -11,9 +11,7 @@
     <header>
         <a href="index.php" class="logo">El Najeh</a>
         <nav>
-            <a href="#">Mon Profil</a>
-            <a href="#">Mes Cours</a>
-            <a href="#">Messages</a>
+           
             <a href="../backend/logout.php" class="btn-logout">Déconnexion</a>
         </nav>
     </header>
@@ -24,63 +22,67 @@
         <p id="role-info"></p>
 
         <div class="dashboard-main-content">
-            <div class="left-panel">
-                <!-- Section des inscriptions des élèves (visible uniquement pour les enseignants) -->
-                <section id="inscriptions-eleves-section" class="dashboard-panel" style="display: none;">
-                    <h2>Matières & Groupes</h2>
-                    <div id="matieres-list">
-                        <p>Chargement des matières...</p>
-                    </div>
-                </section>
-            </div>
-
-            <div class="right-panel">
+            <div class="teacher-dashboard-layout">
                 <!-- Bouton pour créer une annonce (visible uniquement pour les enseignants) -->
-                <button id="create-annonce-btn" class="btn-primary" style="display: none; margin-top: 20px;">Créer une Annonce</button>
+                <button id="create-annonce-btn" class="btn-primary" style="display: none; margin-bottom: 20px;">Créer une Annonce</button>
 
-                <!-- Section pour afficher les détails des élèves pour la matière sélectionnée -->
-                <section id="eleve-details-section" class="dashboard-panel" style="display: none;">
-                    <h2>Élèves inscrits</h2>
-                    <div id="selected-matiere-eleves">
-                        <p>Sélectionnez une matière pour voir les élèves inscrits.</p>
+                <div class="dashboard-panels-container">
+                    <div class="left-panel">
+                        <!-- Section des inscriptions des élèves (visible uniquement pour les enseignants) -->
+                        <section id="inscriptions-eleves-section" class="dashboard-panel" style="display: none;">
+                            <h2>Matières & Groupes</h2>
+                            <div id="matieres-list">
+                                <p>Chargement des matières...</p>
+                            </div>
+                        </section>
                     </div>
-                </section>
 
-                <!-- Section de création d'annonce -->
-                <section id="create-annonce-section" class="dashboard-panel" style="display: none;">
-                    <h2>Créer une Nouvelle Annonce</h2>
-                    <form id="annonce-form">
-                        <div class="form-group">
-                            <label for="matiere-select">Matière:</label>
-                            <select id="matiere-select" name="matiere_id" required>
-                                <!-- Les options de matière seront chargées ici par JavaScript -->
-                                <option value="">Sélectionnez une matière</option>
-                                <option value="other">Autre (taper une nouvelle matière)</option>
-                            </select>
-                            <input type="text" id="new-matiere-input" name="new_matiere_name" placeholder="Entrez le nom de la nouvelle matière" style="display: none; margin-top: 10px;">
-                        </div>
-                        <div class="form-group">
-                            <label for="titre">Titre de l'annonce:</label>
-                            <input type="text" id="titre" name="titre" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description:</label>
-                            <textarea id="description" name="description" rows="5" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="niveau">Niveau:</label>
-                            <input type="text" id="niveau" name="niveau" placeholder="Ex: BAC, Licence 1, 3ème" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="prix-unitaire">Prix Unitaire (€/heure):</label>
-                            <input type="number" id="prix-unitaire" name="prix_unitaire" step="0.01" min="0" required>
-                        </div>
-                        <button type="submit" class="btn-primary">Publier l'Annonce</button>
-                        <button type="button" id="cancel-annonce-btn" class="btn-secondary">Annuler</button>
-                    </form>
-                    <p id="annonce-message" style="margin-top: 15px;"></p>
-                </section>
+                    <div class="right-content-wrapper">
+                        <!-- Section pour afficher les détails des élèves pour la matière sélectionnée -->
+                        <section id="eleve-details-section" class="dashboard-panel" style="display: none;">
+                            <h2>Élèves inscrits</h2>
+                            <div id="selected-matiere-eleves">
+                                <p>Sélectionnez une matière pour voir les élèves inscrits.</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
+
+            <!-- Section de création d'annonce (déplacée en dehors du flux principal pour un affichage conditionnel) -->
+            <section id="create-annonce-section" class="dashboard-panel" style="display: none;">
+                <h2>Créer une Nouvelle Annonce</h2>
+                <form id="annonce-form">
+                    <div class="form-group">
+                        <label for="matiere-select">Matière:</label>
+                        <select id="matiere-select" name="matiere_id" required>
+                            <!-- Les options de matière seront chargées ici par JavaScript -->
+                            <option value="">Sélectionnez une matière</option>
+                            <option value="other">Autre (taper une nouvelle matière)</option>
+                        </select>
+                        <input type="text" id="new-matiere-input" name="new_matiere_name" placeholder="Entrez le nom de la nouvelle matière" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="titre">Titre de l'annonce:</label>
+                        <input type="text" id="titre" name="titre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="niveau">Niveau:</label>
+                        <input type="text" id="niveau" name="niveau" placeholder="Ex: BAC, Licence 1, 3ème" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prix-unitaire">Prix Unitaire (€/heure):</label>
+                        <input type="number" id="prix-unitaire" name="prix_unitaire" step="0.01" min="0" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Publier l'Annonce</button>
+                    <button type="button" id="cancel-annonce-btn" class="btn-secondary">Annuler</button>
+                </form>
+                <p id="annonce-message" style="margin-top: 15px;"></p>
+            </section>
         </div>
     </main>
 

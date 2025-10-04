@@ -45,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (inscriptionsElevesSection) {
                     inscriptionsElevesSection.style.display = 'block';
+                    // Appeler loadInscriptions() si l'utilisateur est un enseignant et sur le tableau de bord
+                    if (typeof loadInscriptions === 'function') {
+                        loadInscriptions();
+                    }
                 }
                     } else if (userData.role === 'student') {
                         roleInfoElement.textContent = "Tableau de bord élèves";

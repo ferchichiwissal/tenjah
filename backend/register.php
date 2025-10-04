@@ -62,11 +62,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt_teacher->bind_param("i", $user_id);
                 $stmt_teacher->execute();
                 $stmt_teacher->close();
+            } elseif ($role === 'student') { // Ajouter la logique pour les élèves
+                $stmt_student = $conn->prepare("INSERT INTO eleve (user_id) VALUES (?)");
+                $stmt_student->bind_param("i", $user_id);
+                $stmt_student->execute();
+                $stmt_student->close();
             }
 
             $_SESSION['user_id'] = $user_id;
             $_SESSION['email'] = $email;
             $_SESSION['role'] = $role;
+            // Utiliser 'role_shortname' pour la session pour être cohérent avec inscrire_eleve.php
+            $_SESSION['role_shortname'] = $role; 
             header("Location: ../frontend/dashboard.html"); // Rediriger vers le tableau de bord après inscription
             exit();
         } else {

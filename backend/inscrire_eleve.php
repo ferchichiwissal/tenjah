@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include 'db_connect.php';
 
@@ -11,11 +15,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    $eleve_id = $_SESSION['user_id'];
-    $annonce_id = filter_input(INPUT_POST, 'annonce_id', FILTER_VALIDATE_INT);
+    $user_id = $_SESSION['user_id'];
+    $annonce_id = isset($_POST['annonce_id']) ? (int)$_POST['annonce_id'] : 0;
 
-    if (!$annonce_id) {
+    if ($annonce_id <= 0) {
         echo json_encode(['success' => false, 'message' => 'ID de l\'annonce manquant ou invalide.']);
+        exit();
+    }
+
+    // Récupérer l'ID de l'élève à partir de l'ID de l'utilisateur
+    $stmt = $conn->prepare("SELECT id FROM eleve WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($eleve_id);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (!$eleve_id) {
+        echo json_encode(['success' => false, 'message' => 'ID élève introuvable.']);
         exit();
     }
 
@@ -47,4 +64,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     echo json_encode(['success' => false, 'message' => 'Méthode de requête non autorisée.']);
 }
-?>

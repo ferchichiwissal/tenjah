@@ -33,7 +33,7 @@ $sql = "SELECT
             u.email AS eleve_email,
             i.date_inscription
         FROM inscription i
-        JOIN eleve el ON i.eleve_id = el.user_id
+        JOIN eleve el ON i.eleve_id = el.id
         JOIN utilisateur u ON el.user_id = u.id
         JOIN annonce a ON i.annonce_id = a.id
         JOIN matiere m ON a.matiere_id = m.id

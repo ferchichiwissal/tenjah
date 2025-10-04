@@ -23,11 +23,14 @@ if (isset($_SESSION['user_id'])) {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
+        // Mettre à jour la session avec le rôle correct
+        $_SESSION['role_shortname'] = $user['role']; // Stocker le rôle sous 'role_shortname'
+
         $response = [
             'loggedIn' => true,
             'nom' => $user['nom'],
             'prenom' => $user['prenom'],
-            'role' => $user['role']
+            'role' => $user['role'] // Conserver 'role' pour la réponse JSON du frontend
         ];
     }
     $stmt->close();

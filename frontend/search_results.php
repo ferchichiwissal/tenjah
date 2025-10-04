@@ -210,7 +210,7 @@
                         }
                     } catch (error) {
                         console.error('Erreur lors de l\'inscription:', error);
-                        alert('Une erreur est survenue lors de l\'inscription.');
+                        alert('Une erreur est survenue lors de l\'inscription: ' + error.message);
                     }
                 });
             });

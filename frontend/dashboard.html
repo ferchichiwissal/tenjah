@@ -276,7 +276,7 @@
             cancelAnnonceBtn.addEventListener('click', function() {
                 createAnnonceSection.style.display = 'none';
                 createAnnonceBtn.style.display = 'block';
-                loadInscriptions(); // Recharger les inscriptions si on annule la création d'annonce
+                // Ne pas recharger les inscriptions ici, cela sera géré par le checkUserRole
             });
 
             // Gérer la soumission du formulaire d'annonce
@@ -329,6 +329,7 @@
                         // Optionnel: masquer le formulaire après succès
                         // createAnnonceSection.style.display = 'none';
                         // createAnnonceBtn.style.display = 'block';
+                        loadInscriptions(); // Recharger les inscriptions après la création d'une annonce
                     } else {
                         annonceMessage.textContent = 'Erreur: ' + result.message;
                         annonceMessage.style.color = 'red';
@@ -394,8 +395,11 @@
                 }
             }
 
-            // Charger les inscriptions au chargement de la page
-            loadInscriptions();
+            // La fonction checkUserRole est définie dans auth.js
+            // Elle est appelée au chargement de la page et gère l'affichage des sections
+            // Nous allons modifier auth.js pour qu'il appelle loadInscriptions si l'utilisateur est un enseignant.
+            // Pour l'instant, nous allons commenter l'appel direct ici.
+            // loadInscriptions();
         });
     </script>
 </body>

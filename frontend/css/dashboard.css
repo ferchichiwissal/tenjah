@@ -206,7 +206,9 @@ footer {
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea,
-.form-group select {
+.form-group select,
+.form-group input[type="date"],
+.form-group input[type="time"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -343,6 +345,34 @@ footer {
     font-weight: bold;
     color: #333;
     font-size: 1.1em;
+}
+
+/* Styles pour le tableau des sessions */
+.sessions-table {
+    width: 100%;
+    border-collapse: collapse; /* Pour éviter les doubles bordures */
+    margin-top: 15px;
+}
+
+.sessions-table th,
+.sessions-table td {
+    padding: 15px 25px; /* Augmentation de l'espacement interne pour les cellules */
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.sessions-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.sessions-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Couleur de fond alternée pour les lignes */
+}
+
+.sessions-table tbody tr:hover {
+    background-color: #e0f7fa; /* Effet de survol */
 }
 
 /* Styles pour la liste des élèves */

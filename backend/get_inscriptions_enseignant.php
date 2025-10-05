@@ -37,7 +37,9 @@ try {
                 u.prenom AS eleve_prenom,
                 u.email AS eleve_email,
                 i.id AS inscription_id,
-                i.groupe_id
+                i.groupe_id,
+                a.titre AS annonce_titre,
+                a.niveau AS annonce_niveau
             FROM inscription i
             JOIN eleve el ON i.eleve_id = el.id
             JOIN utilisateur u ON el.user_id = u.id
@@ -75,7 +77,9 @@ try {
             'eleve_prenom' => $row['eleve_prenom'],
             'eleve_email' => $row['eleve_email'],
             'inscription_id' => $row['inscription_id'],
-            'groupe_id' => $row['groupe_id']
+            'groupe_id' => $row['groupe_id'],
+            'annonce_titre' => $row['annonce_titre'],
+            'annonce_niveau' => $row['annonce_niveau']
         ];
         $matieres_data[$matiere_id]['students'][] = $student;
     }

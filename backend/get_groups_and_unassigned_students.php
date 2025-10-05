@@ -84,7 +84,9 @@ try {
             u.email AS eleve_email,
             i.id AS inscription_id,
             i.groupe_id,
-            a.id AS annonce_id
+            a.id AS annonce_id,
+            a.titre AS annonce_titre,
+            a.niveau AS annonce_niveau
         FROM inscription i
         JOIN eleve el ON i.eleve_id = el.id
         JOIN utilisateur u ON el.user_id = u.id
@@ -147,7 +149,9 @@ try {
                 'eleve_prenom' => $student['eleve_prenom'],
                 'eleve_email' => $student['eleve_email'],
                 'inscription_id' => $student['inscription_id'],
-                'annonce_id' => $student['annonce_id']
+                'annonce_id' => $student['annonce_id'],
+                'annonce_titre' => $student['annonce_titre'],
+                'annonce_niveau' => $student['annonce_niveau']
             ];
         } else {
             $unassigned_students[] = [
@@ -156,7 +160,9 @@ try {
                 'eleve_prenom' => $student['eleve_prenom'],
                 'eleve_email' => $student['eleve_email'],
                 'inscription_id' => $student['inscription_id'],
-                'annonce_id' => $student['annonce_id']
+                'annonce_id' => $student['annonce_id'],
+                'annonce_titre' => $student['annonce_titre'],
+                'annonce_niveau' => $student['annonce_niveau']
             ];
         }
     }

@@ -360,7 +360,7 @@
                                                 <ul class="student-list">
                                                     ${group.students.map(student => `
                                                         <li>
-                                                            ${student.eleve_prenom} ${student.eleve_nom}
+                                                            ${student.eleve_prenom} ${student.eleve_nom} (Niveau: ${student.annonce_niveau} - Annonce: ${student.annonce_titre})
                                                         </li>
                                                     `).join('')}
                                                 </ul>
@@ -378,7 +378,7 @@
                                             <ul class="student-list">
                                                 ${matiereData.unassigned_students.map(student => `
                                                     <li>
-                                                        ${student.eleve_prenom} ${student.eleve_nom}
+                                                        ${student.eleve_prenom} ${student.eleve_nom} (Niveau: ${student.annonce_niveau} - Annonce: ${student.annonce_titre})
                                                     </li>
                                                 `).join('')}
                                             </ul>

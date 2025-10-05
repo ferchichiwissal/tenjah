@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     studentDiv.classList.add('student-checkbox-item');
                     studentDiv.innerHTML = `
                         <input type="checkbox" id="create-group-student-${student.eleve_id}" value="${student.eleve_id}" data-inscription-id="${student.inscription_id}">
-                        <label for="create-group-student-${student.eleve_id}">${student.eleve_prenom} ${student.eleve_nom}</label>
+                        <label for="create-group-student-${student.eleve_id}">${student.eleve_prenom} ${student.eleve_nom} (Niveau: ${student.annonce_niveau} - Annonce: ${student.annonce_titre})</label>
                     `;
                     unassignedStudentsListForCreation.appendChild(studentDiv);
                 });

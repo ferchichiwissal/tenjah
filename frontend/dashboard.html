@@ -11,7 +11,6 @@
     <header>
         <a href="index.php" class="logo">Tenjah</a>
         <nav>
-           
             <a href="../backend/logout.php" class="btn-logout">Déconnexion</a>
         </nav>
     </header>
@@ -23,8 +22,12 @@
 
         <div class="dashboard-main-content">
             <div class="teacher-dashboard-layout">
-                <!-- Bouton pour créer une annonce (visible uniquement pour les enseignants) -->
-                <button id="create-annonce-btn" class="btn-primary" style="display: none; margin-bottom: 20px;">Créer une Annonce</button>
+                <div class="teacher-actions" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <!-- Bouton pour créer une annonce (visible uniquement pour les enseignants) -->
+                    <a href="#" id="create-annonce-btn" class="btn-primary">Créer une Annonce</a>
+                    <!-- Bouton pour les statistiques (visible uniquement pour les enseignants) -->
+                    <a href="statistique.html" id="statistique-btn" class="btn-primary">Statistiques</a>
+                </div>
 
                 <div class="dashboard-panels-container">
                     <div class="left-panel">

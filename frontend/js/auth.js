@@ -43,11 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         const studentMatieresSection = document.getElementById('student-matieres-section');
                         const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
 
+                        const teacherActionsDiv = document.querySelector('.teacher-actions');
+                        if (teacherActionsDiv) teacherActionsDiv.style.display = 'flex'; // Afficher le conteneur des boutons
+
                         // Afficher les éléments spécifiques à l'enseignant
                         if (createAnnonceBtn) createAnnonceBtn.style.display = 'block';
                         if (inscriptionsElevesSection) inscriptionsElevesSection.style.display = 'block';
                         if (eleveDetailsSection) eleveDetailsSection.style.display = 'block'; // Afficher par défaut pour l'enseignant
                         if (teacherSessionsSection) teacherSessionsSection.style.display = 'block'; // Afficher par défaut pour l'enseignant
+
+                        // Afficher le bouton "Statistiques" pour les enseignants
+                        const statistiqueBtn = document.getElementById('statistique-btn');
+                        if (statistiqueBtn) {
+                            statistiqueBtn.style.display = 'block';
+                            statistiqueBtn.addEventListener('click', () => {
+                                window.location.href = 'statistique.html';
+                            });
+                        }
 
                         // Masquer les éléments spécifiques à l'élève
                         if (studentMatieresSection) studentMatieresSection.style.display = 'none';
@@ -75,6 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (inscriptionsElevesSection) inscriptionsElevesSection.style.display = 'none';
                         if (eleveDetailsSection) eleveDetailsSection.style.display = 'none';
                         if (teacherSessionsSection) teacherSessionsSection.style.display = 'none';
+                        
+                        // Masquer le bouton "Statistiques" pour les élèves
+                        const statistiqueBtn = document.getElementById('statistique-btn');
+                        if (statistiqueBtn) statistiqueBtn.style.display = 'none';
 
                         // Appeler les fonctions de chargement pour l'élève
                         if (typeof loadStudentMatieres === 'function') loadStudentMatieres();
@@ -89,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const teacherSessionsSection = document.getElementById('teacher-sessions-section');
                         const studentMatieresSection = document.getElementById('student-matieres-section');
                         const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
+                        const statistiqueBtn = document.getElementById('statistique-btn'); // Ajouter pour masquer
 
                         if (createAnnonceBtn) createAnnonceBtn.style.display = 'none';
                         if (inscriptionsElevesSection) inscriptionsElevesSection.style.display = 'none';
@@ -96,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (teacherSessionsSection) teacherSessionsSection.style.display = 'none';
                         if (studentMatieresSection) studentMatieresSection.style.display = 'none';
                         if (studentSessionsDetailsSection) studentSessionsDetailsSection.style.display = 'none';
+                        if (statistiqueBtn) statistiqueBtn.style.display = 'none'; // Masquer pour les rôles inconnus
                     }
                 }
 

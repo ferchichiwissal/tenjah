@@ -222,7 +222,7 @@ footer {
 }
 
 .btn-primary {
-    background-color: #76c9f3;;
+    background-color: #76c9f3;
     color: white;
     padding: 12px 25px;
     border: none;
@@ -231,7 +231,13 @@ footer {
     font-size: 1.1em;
     text-decoration: none;
     transition: background-color 0.3s ease;
-    margin-right: 10px;
+    min-width: 160px; /* Uniformiser la largeur des boutons */
+    text-align: center; /* Centrer le texte si le bouton est plus large que le contenu */
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur/hauteur */
+    display: inline-flex; /* Utiliser flexbox pour centrer le contenu verticalement */
+    align-items: center; /* Centrer verticalement */
+    justify-content: center; /* Centrer horizontalement */
+    height: 50px; /* Hauteur fixe pour uniformiser */
 }
 
 .btn-primary:hover {

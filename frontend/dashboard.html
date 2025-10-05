@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord - El Najeh</title>
+    <title>Tableau de Bord - Tenjah</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
     <header>
-        <a href="index.php" class="logo">El Najeh</a>
+        <a href="index.php" class="logo">Tenjah</a>
         <nav>
            
             <a href="../backend/logout.php" class="btn-logout">Déconnexion</a>
@@ -36,10 +36,38 @@
                             </div>
                             <button id="create-meet-btn" class="btn-primary" style="margin-top: 20px;">Créer une réunion</button>
                         </section>
+
+                        <!-- Section pour les matières de l'élève (dans le panneau de gauche) -->
+                        <section id="student-matieres-section" class="dashboard-panel" style="display: none;">
+                            <h2>Mes Matières</h2>
+                            <ul id="student-matieres-list" class="list-group">
+                                <!-- Les matières de l'élève seront chargées ici -->
+                                <p>Chargement des matières...</p>
+                            </ul>
+                        </section>
                     </div>
 
                     <div class="right-content-wrapper">
-                        <!-- Section pour afficher les détails des élèves pour la matière sélectionnée -->
+                        <!-- Section pour les détails des sessions de l'élève (dans le panneau de droite) -->
+                        <section id="student-sessions-details-section" class="dashboard-panel">
+                            <h2 id="student-sessions-matiere-title">Mes prochaines séances</h2>
+                            <div id="student-sessions-table-container">
+                                <table class="sessions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Matière/Groupe</th>
+                                            <th>Début</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="student-sessions-table-body">
+                                        <!-- Les séances de l'élève seront chargées ici -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Section pour afficher les détails des élèves pour la matière sélectionnée (enseignant) -->
                         <section id="eleve-details-section" class="dashboard-panel" style="display: none;">
                             <div class="section-header">
                                 <h2>Élèves inscrits</h2>
@@ -55,8 +83,6 @@
                                     <h3>Gestion des Groupes pour <span id="modal-matiere-name"></span></h3>
                                     <p id="group-management-message" style="margin-bottom: 15px;"></p>
                                     
-                                 
-
                                     <h4>Créer un nouveau groupe</h4>
                                     <div class="form-group">
                                         <label for="new-group-name">Nom du groupe:</label>
@@ -74,7 +100,7 @@
                 </div>
             </div>
 
-            <!-- Modale pour la création de séance de meet -->
+            <!-- Modale pour la création de séance de meet (enseignant) -->
             <div id="create-meet-modal" class="modal">
                 <div class="modal-content">
                     <span class="close-button" id="close-meet-modal">&times;</span>
@@ -92,13 +118,15 @@
                                 <option value="">Sélectionnez un groupe</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="meet-date-seance">Date de la séance:</label>
-                            <input type="date" id="meet-date-seance" name="date_seance" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="meet-time-seance">Heure de la séance:</label>
-                            <input type="time" id="meet-time-seance" name="time_seance" required>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="meet-date-seance">Date de la séance:</label>
+                                <input type="date" id="meet-date-seance" name="date_seance" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="meet-time-seance">Heure de la séance:</label>
+                                <input type="time" id="meet-time-seance" name="time_seance" required>
+                            </div>
                         </div>
                         <button type="submit" class="btn-primary">Créer la Séance</button>
                         <button type="button" id="cancel-meet-session-btn" class="btn-secondary">Annuler</button>
@@ -108,7 +136,7 @@
             </div>
 
             <!-- Nouvelle section pour afficher les séances de l'enseignant -->
-            <section id="teacher-sessions-section" class="dashboard-panel">
+            <section id="teacher-sessions-section" class="dashboard-panel" style="display: none;">
                 <h2>Mes Séances de Réunion</h2>
                 <div id="sessions-list">
                     <p>Chargement des séances...</p>
@@ -153,7 +181,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 El Najeh. Tous droits réservés.</p>
+        <p>&copy; 2025 Tenjah. Tous droits réservés.</p>
     </footer>
     <script src="js/auth.js"></script>
     <script src="js/script.js"></script>

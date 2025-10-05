@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 $servername = "localhost";
 $username = "root"; // Remplacez par votre nom d'utilisateur MySQL
 $password = "";     // Remplacez par votre mot de passe MySQL

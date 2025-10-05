@@ -35,29 +35,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (roleInfoElement) {
                     if (userData.role === 'teacher') {
-                     //   roleInfoElement.textContent = "Tableau de bord enseignant";
-                        // Afficher le bouton "Créer une Annonce" si l'utilisateur est un enseignant  */
-                const createAnnonceBtn = document.getElementById('create-annonce-btn');
-                const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
+                       // roleInfoElement.textContent = "Tableau de bord enseignant";
+                        const createAnnonceBtn = document.getElementById('create-annonce-btn');
+                        const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
+                        const eleveDetailsSection = document.getElementById('eleve-details-section');
+                        const teacherSessionsSection = document.getElementById('teacher-sessions-section');
+                        const studentMatieresSection = document.getElementById('student-matieres-section');
+                        const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
 
-                if (createAnnonceBtn) {
-                    createAnnonceBtn.style.display = 'block';
-                }
-                if (inscriptionsElevesSection) {
-                    inscriptionsElevesSection.style.display = 'block';
-                    // Appeler loadInscriptions() si l'utilisateur est un enseignant et sur le tableau de bord
-                    if (typeof loadInscriptions === 'function') {
-                        loadInscriptions();
-                    }
-                    // Appeler loadTeacherSessions() si l'utilisateur est un enseignant et sur le tableau de bord
-                    if (typeof loadTeacherSessions === 'function') {
-                        loadTeacherSessions();
-                    }
-                }
+                        // Afficher les éléments spécifiques à l'enseignant
+                        if (createAnnonceBtn) createAnnonceBtn.style.display = 'block';
+                        if (inscriptionsElevesSection) inscriptionsElevesSection.style.display = 'block';
+                        if (eleveDetailsSection) eleveDetailsSection.style.display = 'block'; // Afficher par défaut pour l'enseignant
+                        if (teacherSessionsSection) teacherSessionsSection.style.display = 'block'; // Afficher par défaut pour l'enseignant
+
+                        // Masquer les éléments spécifiques à l'élève
+                        if (studentMatieresSection) studentMatieresSection.style.display = 'none';
+                        if (studentSessionsDetailsSection) studentSessionsDetailsSection.style.display = 'none';
+
+                        // Appeler les fonctions de chargement pour l'enseignant
+                        if (typeof loadInscriptions === 'function') loadInscriptions();
+                        if (typeof loadTeacherSessions === 'function') loadTeacherSessions();
+
                     } else if (userData.role === 'student') {
-                        roleInfoElement.textContent = "Tableau de bord élèves";
+                      //  roleInfoElement.textContent = "Tableau de bord élève";
+                        const createAnnonceBtn = document.getElementById('create-annonce-btn');
+                        const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
+                        const eleveDetailsSection = document.getElementById('eleve-details-section');
+                        const teacherSessionsSection = document.getElementById('teacher-sessions-section');
+                        const studentMatieresSection = document.getElementById('student-matieres-section');
+                        const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
+
+                        // Afficher les éléments spécifiques à l'élève
+                        if (studentMatieresSection) studentMatieresSection.style.display = 'block';
+                        if (studentSessionsDetailsSection) studentSessionsDetailsSection.style.display = 'block'; // Afficher par défaut pour l'élève
+
+                        // Masquer les éléments spécifiques à l'enseignant
+                        if (createAnnonceBtn) createAnnonceBtn.style.display = 'none';
+                        if (inscriptionsElevesSection) inscriptionsElevesSection.style.display = 'none';
+                        if (eleveDetailsSection) eleveDetailsSection.style.display = 'none';
+                        if (teacherSessionsSection) teacherSessionsSection.style.display = 'none';
+
+                        // Appeler les fonctions de chargement pour l'élève
+                        if (typeof loadStudentMatieres === 'function') loadStudentMatieres();
+
                     } else {
+                        // Rôle inconnu ou non spécifié
                         roleInfoElement.textContent = `Votre rôle: ${userData.role}`;
+                        // Masquer toutes les sections spécifiques aux rôles
+                        const createAnnonceBtn = document.getElementById('create-annonce-btn');
+                        const inscriptionsElevesSection = document.getElementById('inscriptions-eleves-section');
+                        const eleveDetailsSection = document.getElementById('eleve-details-section');
+                        const teacherSessionsSection = document.getElementById('teacher-sessions-section');
+                        const studentMatieresSection = document.getElementById('student-matieres-section');
+                        const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
+
+                        if (createAnnonceBtn) createAnnonceBtn.style.display = 'none';
+                        if (inscriptionsElevesSection) inscriptionsElevesSection.style.display = 'none';
+                        if (eleveDetailsSection) eleveDetailsSection.style.display = 'none';
+                        if (teacherSessionsSection) teacherSessionsSection.style.display = 'none';
+                        if (studentMatieresSection) studentMatieresSection.style.display = 'none';
+                        if (studentSessionsDetailsSection) studentSessionsDetailsSection.style.display = 'none';
                     }
                 }
 

@@ -366,4 +366,179 @@ document.addEventListener('DOMContentLoaded', () => {
             inscriptionsElevesSection.style.display = 'block';
         }
     }
+
+    // Fonction utilitaire pour formater la date et l'heure
+    function formatDateTime(dateTimeString) {
+        const date = new Date(dateTimeString);
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: undefined // Supprimer les secondes
+        };
+        return date.toLocaleString('fr-FR', options);
+    }
+
+    // Fonction pour mettre à jour l'état du bouton "Rejoindre"
+    function updateJoinButtonState(sessionStartTime, meetLink, buttonElement) {
+        const now = new Date();
+        const startTime = new Date(sessionStartTime);
+        const tenMinutesBefore = new Date(startTime.getTime() - 10 * 60 * 1000); // 10 minutes avant le début
+
+        if (now < tenMinutesBefore) {
+            // Plus de 10 minutes avant le début
+            const diffMinutes = Math.floor((tenMinutesBefore - now) / (1000 * 60));
+            buttonElement.textContent = `Disponible à -${diffMinutes} min`;
+            buttonElement.classList.add('disabled');
+            buttonElement.classList.remove('btn-primary'); // S'assurer que btn-primary est retiré
+            buttonElement.onclick = null;
+        } else if (now >= tenMinutesBefore && now <= startTime) {
+            // Dans les 10 minutes avant ou à l'heure de début
+            buttonElement.textContent = 'Rejoindre';
+            buttonElement.classList.remove('disabled');
+            buttonElement.classList.add('btn-primary'); // Ajouter la classe pour le style
+            buttonElement.onclick = () => window.open(meetLink, '_blank');
+        } else if (now > startTime && now <= new Date(startTime.getTime() + 60 * 60 * 1000)) {
+            // Jusqu'à 60 minutes après le début (pour permettre de rejoindre en retard)
+            buttonElement.textContent = 'Rejoindre';
+            buttonElement.classList.remove('disabled');
+            buttonElement.classList.add('btn-primary'); // Ajouter la classe pour le style
+            buttonElement.onclick = () => window.open(meetLink, '_blank');
+        }
+        else {
+            // Session passée
+            buttonElement.textContent = 'Terminée';
+            buttonElement.classList.add('disabled');
+            buttonElement.classList.remove('btn-primary'); // Retirer la classe si présente
+            buttonElement.onclick = null;
+        }
+    }
+
+    let allStudentSessions = []; // Pour stocker toutes les sessions de l'élève
+
+    // Fonction pour charger les matières de l'élève
+    window.loadStudentMatieres = async function() {
+        console.log("Chargement des matières de l'élève...");
+        const studentMatieresSection = document.getElementById('student-matieres-section');
+        const studentMatieresList = document.getElementById('student-matieres-list');
+        const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
+        const studentSessionsTableBody = document.getElementById('student-sessions-table-body');
+        const studentSessionsMatiereTitle = document.getElementById('student-sessions-matiere-title');
+
+        if (!studentMatieresSection || !studentMatieresList || !studentSessionsDetailsSection || !studentSessionsTableBody || !studentSessionsMatiereTitle) {
+            console.error("Éléments DOM pour les matières de l'élève introuvables.");
+            return;
+        }
+
+        studentMatieresList.innerHTML = '';
+        studentSessionsTableBody.innerHTML = '';
+        studentSessionsMatiereTitle.textContent = 'Mes prochaines séances'; // Titre par défaut
+        studentSessionsDetailsSection.style.display = 'block'; // Afficher la section des sessions par défaut
+        studentMatieresSection.style.display = 'block'; // Afficher la section des matières de l'élève
+
+        try {
+            const response = await fetch('../backend/get_student_sessions.php');
+            const result = await response.json();
+
+            if (result.success) {
+                allStudentSessions = result.sessions; // Stocker toutes les sessions
+
+                // Regrouper les sessions par matière pour afficher la liste des matières
+                const matieresMap = new Map();
+                allStudentSessions.forEach(session => {
+                    if (!matieresMap.has(session.nom_matiere)) {
+                        matieresMap.set(session.nom_matiere, {
+                            matiere_id: session.id_matiere, // Assurez-vous que l'ID de la matière est disponible dans la session
+                            nom_matiere: session.nom_matiere,
+                            sessions: []
+                        });
+                    }
+                    matieresMap.get(session.nom_matiere).sessions.push(session);
+                });
+
+                const matieres = Array.from(matieresMap.values());
+
+                if (matieres.length > 0) {
+                    matieres.forEach((matiereData, index) => {
+                        const listItem = document.createElement('li'); // Utiliser <li> pour une liste
+                        listItem.classList.add('matiere-item');
+                        listItem.dataset.matiereName = matiereData.nom_matiere;
+                        listItem.innerHTML = `<div class="matiere-name">${matiereData.nom_matiere}</div>`;
+                        studentMatieresList.appendChild(listItem);
+
+                        // Afficher les sessions de la première matière par défaut
+                        if (index === 0) {
+                            listItem.classList.add('active');
+                            displayStudentSessions(matiereData);
+                        }
+
+                        listItem.addEventListener('click', () => {
+                            document.querySelectorAll('#student-matieres-list .matiere-item').forEach(item => item.classList.remove('active'));
+                            listItem.classList.add('active');
+                            displayStudentSessions(matiereData);
+                        });
+                    });
+                } else {
+                    studentMatieresList.innerHTML = '<p>Aucune matière avec des sessions de meet pour le moment.</p>';
+                    studentSessionsTableBody.innerHTML = '<tr><td colspan="3">Aucune séance de meet prévue.</td></tr>';
+                }
+            } else {
+                studentMatieresList.innerHTML = `<p>Erreur lors du chargement des sessions: ${result.message || result.error}</p>`;
+                studentSessionsTableBody.innerHTML = `<tr><td colspan="3">Erreur lors du chargement des sessions: ${result.message || result.error}</td></tr>`;
+            }
+        } catch (error) {
+            console.error('Erreur réseau lors du chargement des sessions de l\'élève:', error);
+            studentMatieresList.innerHTML = '<p>Erreur réseau lors du chargement des sessions de l\'élève.</p>';
+            studentSessionsTableBody.innerHTML = '<tr><td colspan="3">Erreur réseau lors du chargement des sessions de l\'élève.</td></tr>';
+        }
+    };
+
+    // Nouvelle fonction pour afficher les sessions d'une matière donnée
+    function displayStudentSessions(matiereData) {
+        const studentSessionsDetailsSection = document.getElementById('student-sessions-details-section');
+        const studentSessionsTableBody = document.getElementById('student-sessions-table-body');
+        const studentSessionsMatiereTitle = document.getElementById('student-sessions-matiere-title');
+
+        studentSessionsMatiereTitle.textContent = `Mes prochaines séances pour ${matiereData.nom_matiere}`;
+        studentSessionsTableBody.innerHTML = '';
+        studentSessionsDetailsSection.style.display = 'block';
+
+        let hasSessions = false;
+        // Trier les sessions par date et heure de début
+        const sortedSessions = matiereData.sessions.sort((a, b) => new Date(a.date_heure_debut) - new Date(b.date_heure_debut));
+
+        sortedSessions.forEach(session => {
+            hasSessions = true;
+            const row = studentSessionsTableBody.insertRow();
+            row.innerHTML = `
+                <td>${session.nom_matiere} — ${session.nom_groupe}</td>
+                <td>${formatDateTime(session.date_heure_debut)}</td>
+                <td>
+                    <button class="btn-join-meet" data-session-start="${session.date_heure_debut}" data-meet-link="${session.lien_meet}">Chargement...</button>
+                </td>
+            `;
+            const joinButton = row.querySelector('.btn-join-meet');
+            updateJoinButtonState(session.date_heure_debut, session.lien_meet, joinButton);
+        });
+
+        if (!hasSessions) {
+            const row = studentSessionsTableBody.insertRow();
+            row.innerHTML = `<td colspan="3">Aucune séance de meet prévue pour cette matière.</td>`;
+        }
+
+        // Mettre à jour l'état des boutons toutes les minutes
+        // Clear previous interval to avoid multiple intervals running
+        if (window.studentSessionsInterval) {
+            clearInterval(window.studentSessionsInterval);
+        }
+        window.studentSessionsInterval = setInterval(() => {
+            studentSessionsTableBody.querySelectorAll('.btn-join-meet').forEach(button => {
+                const sessionStart = button.dataset.sessionStart;
+                const meetLink = button.dataset.meetLink;
+                updateJoinButtonState(sessionStart, meetLink, button);
+            });
+        }, 60000); // Toutes les minutes
+    }
 });

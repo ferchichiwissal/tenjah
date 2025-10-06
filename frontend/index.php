@@ -14,7 +14,10 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Tenjah</div>
+         <div class="logo"><img src="images/log.jpg" alt="Tenjah Logo" style="height: 120px;">
+       
+        </div>
+             
             <div id="guest-nav">
                 <ul>
                     <li><a href="register_teacher.html">Donner des cours</a></li>
@@ -64,7 +67,7 @@
         </section>
 
         <section class="courses-overview">
-            <h2>Plus de 130.000 professeurs, plus de 700 activités.</h2>
+            <h2>Plus de 500 professeurs, plus de 70 activités.</h2>
             <div class="course-cards">
                 <div class="card">
                     <img src="images/course-soutien-scolaire.jpg" alt="Soutien scolaire">
@@ -96,22 +99,23 @@
                     <h4>Soutien scolaire</h4>
                     <ul>
                         <li>Maths</li>
-                        <li>Physique</li>
-                        <li>Chimie</li>
-                        <li>Aide aux devoirs</li>
+                        <li>Physique/Chimie</li>
+                        <li>Eco/Gestion</li>
                         <li>Français</li>
-                        <li>Anglais</li>
+                        <li>عربية</li>
+                        <li>Matières Optionnelles</li>
                     </ul>
                 </div>
                 <div>
                     <h4>Cours de langue</h4>
                     <ul>
-                        <li>Russe</li>
-                        <li>Espagnol</li>
-                        <li>Chinois</li>
+                        <li>Français</li>
+                        <li>Anglais</li>
                         <li>Allemand</li>
-                        <li>Arabe</li>
                         <li>Italien</li>
+                        <li>Espagnol</li>
+                        <li>Russe</li>
+                        <li>Chinois</li>
                     </ul>
                 </div>
                 <div>
@@ -126,14 +130,13 @@
                     </ul>
                 </div>
                 <div>
-                    <h4>Informatique & électronique</h4>
+                    <h4>Informatique</h4>
                     <ul>
-                        <li>Initiation à l'informatique (rudiments)</li>
-                        <li>Adobe photoshop</li>
-                        <li>Programmation informatique</li>
-                        <li>Informatique</li>
-                        <li>Microsoft excel</li>
-                        <li>Développement de site web (initiation)</li>
+                        <li>Adobe Photoshop </li>
+                        <li>Adobe Illustrator</li>
+                        <li>Programmation informatique </li>
+                        <li>Développement de sites web</li>
+                       
                     </ul>
                 </div>
                 <div>
@@ -150,10 +153,10 @@
                     <h4>Autres cours</h4>
                     <ul>
                         <li>Parole en public (art oratoire)</li>
-                        <li>Écriture</li>
-                        <li>Peinture</li>
-                        <li>Sciences sociales</li>
-                        <li>Comptabilité d'entreprise</li>
+                        <li>Gestion de projet</li>
+                        <li>Comptabilité</li>
+                        <li>Finance d'entreprise </li>
+                        <li>Coaching sportif</li>
                         <li>Dessin & croquis</li>
                     </ul>
                 </div>

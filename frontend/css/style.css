@@ -10,8 +10,10 @@ body {
 /* Header and Navigation */
 header {
     background-color: #fff;
-    padding: 15px 0;
+    padding: 0; /* Supprime le padding pour que le logo puisse toucher les bords */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex; /* Utilise flexbox pour aligner le contenu */
+    align-items: center; /* Centre verticalement le contenu */
 }
 
 nav {
@@ -27,6 +29,15 @@ nav {
     font-size: 24px;
     font-weight: bold;
     color: #333;
+    height: 100%; /* Le logo prend toute la hauteur du header */
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 100%; /* L'image prend toute la hauteur de son conteneur .logo */
+    width: auto; /* Maintient le ratio d'aspect */
+    object-fit: contain; /* Assure que l'image est contenue sans être coupée */
 }
 
 nav ul {
@@ -121,17 +132,6 @@ nav ul li a:hover {
     width: 1px;
     height: 30px;
     background-color: #eee;
-    margin: 0 10px;
-    flex-shrink: 0; /* Empêche le séparateur de rétrécir */
-}
-
-.search-button {
-    background-color: #5ad3ff;
-    color: #fff;
-    border: none;
-    border-radius: 40px; /* Plus grand border-radius pour un look plus arrondi */
-    padding: 12px 25px;
-    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
